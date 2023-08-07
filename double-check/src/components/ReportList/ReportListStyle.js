@@ -36,9 +36,6 @@ export const Div = styled.div`
   @media screen and (max-width: 610px) {
     width: 85%;
   }
-  @media screen and (max-width: 390px) {
-    width: 85%;
-  }
 `;
 export const Fdiv = styled.div`
   color: black;
@@ -138,6 +135,9 @@ export const ListSmall = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 14px;
+  @media screen and (max-width: 610px) {
+    width: 164px;
+  }
 `;
 
 export const SBox = styled.div`
