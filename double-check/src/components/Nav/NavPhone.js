@@ -6,6 +6,7 @@ const Navbar = styled.div`
   height: 110px;
   display: flex;
   align-items: center;
+  padding: 0 44px 0 24px;
   justify-content: space-between;
 `;
 const Logo = styled.p`
@@ -18,7 +19,9 @@ const Logo = styled.p`
 function NavPhone() {
   return (
     <Navbar>
+      <img src="/Nav.png" alt="nav" width={"20px"} />
       <Logo>DOUBLE CHECK</Logo>
+      <div></div>
     </Navbar>
   );
 }

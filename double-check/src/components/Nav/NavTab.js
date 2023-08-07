@@ -6,23 +6,24 @@ const Navbar = styled.div`
   height: 110px;
   display: flex;
   align-items: center;
-  padding: 0 24px;
+  padding: 0 49px 0 24px;
+  justify-content: space-between;
 `;
 const Logo = styled.p`
   color: var(--ain, #3a42bf);
   font-family: Pretendard;
   font-size: 26px;
   font-weight: 700;
-  margin: auto;
 `;
 
-function NavTab() {
+function NavPhone() {
   return (
     <Navbar>
       <img src="/Nav.png" alt="nav" />
       <Logo>DOUBLE CHECK</Logo>
+      <div></div>
     </Navbar>
   );
 }
 
-export default NavTab;
+export default NavPhone;
