@@ -47,7 +47,7 @@ function NavPC() {
                 <Linkblock>
                     <Link to="">허위 사실 판단기</Link>
                     <Link to="">키워드 검색</Link>
-                    <Link to="/fakenews">신고하기</Link>
+                    <Link to="">신고하기</Link>
                 </Linkblock>
                 <SNS>
                     <img src="/InstarB.png" alt="instargram" />

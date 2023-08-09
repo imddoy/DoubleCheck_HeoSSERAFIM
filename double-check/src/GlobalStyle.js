@@ -9,11 +9,11 @@ const GlobalStyles = createGlobalStyle`
     }
 
     body {
-        font-family : Inter;
+        font-family : Pretendard;
     }
 
     *{
-        font-family : Inter;
+        font-family : Pretendard;
         box-sizing: border-box;
     }
 
