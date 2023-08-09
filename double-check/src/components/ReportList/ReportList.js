@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import {
   Fdiv,
   LBtn,
@@ -18,7 +19,9 @@ function ReportList() {
     <>
       <Fdiv>허위뉴스를 신고해주세요</Fdiv>
       <LDiv>
-        <LBtn>작성하기</LBtn>
+        <Link to="/fakenews">
+          <LBtn>작성하기</LBtn>
+        </Link>
         <LBox>
           <ListSmall>
             <SBox>

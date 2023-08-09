@@ -84,7 +84,7 @@ export const RName = styled.div`
 `;
 
 export const Ranking = styled.div`
-  color: var(--ain, #3a42bf);
+  color: #3a42bf;
   font-size: 20px;
   font-style: normal;
   font-weight: 600;
@@ -116,7 +116,7 @@ export const LBtn = styled.div`
   transition: background-color 0.3s, color 0.3s; /* 부드러운 색상 전환 효과 */
 
   &:hover {
-    background-color: var(--ain, #3a42bf);
+    background-color: #3a42bf;
     color: white;
   }
 `;
@@ -130,7 +130,7 @@ export const LBox = styled.div`
 `;
 
 export const ListSmall = styled.div`
-  width: 342px;
+  width: 100%;
   height: 290px;
   display: flex;
   flex-wrap: wrap;
