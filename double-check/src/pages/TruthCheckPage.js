@@ -1,11 +1,13 @@
 import React from "react";
 import { Div } from "../components/TruthCheck/TruthCheckStyle";
-import SatisfactionSlider from "../components/TruthCheck/SatisfactionSlider";
+import Detect from "../components/TruthCheck/Detect";
+import Result from "../components/TruthCheck/Result";
 
 function TruthCheckPage() {
   return (
     <Div>
-      <SatisfactionSlider />
+      <Detect />
+      <Result />
     </Div>
   );
 }

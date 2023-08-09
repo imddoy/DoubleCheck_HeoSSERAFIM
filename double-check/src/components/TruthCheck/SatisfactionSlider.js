@@ -63,6 +63,7 @@ const SubmitButton = styled.img`
   align-self: flex-end;
   margin-right: 22px;
   margin-bottom: 22px;
+  margin-top: 10px;
 `;
 
 const STitle = styled.div`
