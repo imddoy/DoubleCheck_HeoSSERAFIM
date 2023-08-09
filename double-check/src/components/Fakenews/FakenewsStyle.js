@@ -66,8 +66,11 @@ export const Form = styled.input`
 
     ${responsiveWidth}
 `;
-
-export const Img = styled.div`
+export const StyledForm = styled.form`
+    display: flex;
+    flex-direction: column;
+`;
+export const Img = styled.img`
     width: 341px;
     height: 341px;
     border-radius: 10px;
@@ -88,7 +91,8 @@ export const BtnDiv = styled.div`
     justify-content: space-between;
     margin-top: 16px;
 `;
-export const ImgBtn = styled.div`
+
+export const FileInputLabel = styled.label`
     width: 646px;
     height: 50px;
     border-radius: 10px;
@@ -107,9 +111,10 @@ export const ImgBtn = styled.div`
     align-items: center;
 
     ${responsiveWidth}
+    cursor: pointer;
 `;
 
-export const Btn = styled.div`
+export const Btn = styled.button`
     width: 305px;
     height: 50px;
     border-radius: 10px;
