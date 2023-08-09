@@ -41,9 +41,17 @@ export const FilterBox = styled.div`
     width: 626px;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-evenly;
+    margin-bottom: 10px;
+    ${responsiveWidth}
+`;
 
-    flex-wrap: wrap;
+export const FilterBox2 = styled.div`
+    width: 626px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-bottom: 10px;
     ${responsiveWidth}
 `;
 export const FilterDiv = styled.div`
