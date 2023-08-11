@@ -56,7 +56,8 @@ def tag_by_key(request, key):
         related_youtube_data = YouTubeData.objects.filter(hashtags__tag=selected_tag)
 
         # 연관된 YouTubeData의 제목과 썸네일 URL을 리스트로 반환
-        video_data = [{"title": video.title, "thumbnail_url": video.thumbnail_url} for video in related_youtube_data]
+        video_data = [{"title": video.title, "thumbnail_url": video.thumbnail_url,"video_url": video.url
+                       } for video in related_youtube_data]
 
         return Response({"selected_tag": selected_tag, "video_data": video_data})
 
