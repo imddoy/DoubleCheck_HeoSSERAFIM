@@ -184,12 +184,11 @@ export const BTitle = styled.div`
   letter-spacing: -2px;
 `;
 
-export const BImg = styled.div`
+export const BImg = styled.img`
   width: 140px;
   height: 140px;
   flex-shrink: 0;
   border-radius: 10px;
-  background: #d9d9d9;
   margin-bottom: 12px;
 `;
 
