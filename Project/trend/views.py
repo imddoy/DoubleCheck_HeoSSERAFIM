@@ -56,18 +56,10 @@ def tag_by_key(request, key):
         related_youtube_data = YouTubeData.objects.filter(hashtags__tag=selected_tag)
 
         # 연관된 YouTubeData의 제목과 썸네일 URL을 리스트로 반환
-<<<<<<< HEAD
         video_data = [{"title": video.title, "thumbnail_url": video.thumbnail_url,"video_url": video.url
                        } for video in related_youtube_data]
-=======
-        video_data = [{"title": video.title, "thumbnail_url": video.thumbnail_url} for video in related_youtube_data]
->>>>>>> 48bbb43e1640b0a2a19eb63b3d4ef2fcbf4c7367
 
         return Response({"selected_tag": selected_tag, "video_data": video_data})
 
     except IndexError:
-<<<<<<< HEAD
         return Response({"error": "Invalid key value"}, status=400)
-=======
-        return Response({"error": "Invalid key value"}, status=400)
->>>>>>> 48bbb43e1640b0a2a19eb63b3d4ef2fcbf4c7367
