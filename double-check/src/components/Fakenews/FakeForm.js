@@ -19,6 +19,7 @@ function FakeForm() {
     const [url, setUrl] = useState('');
     const [content, setContent] = useState('');
     const [imgFile, setImgFile] = useState('');
+    const [saveImg, setSaveImg] = useState('');
     const imgRef = useRef();
 
     const [showPopup, setShowPopup] = useState(false);
@@ -44,6 +45,7 @@ function FakeForm() {
         reader.readAsDataURL(file);
         reader.onloadend = () => {
             setImgFile(reader.result);
+            setSaveImg(file);
         };
     };
     const postFake = (e) => {
@@ -55,7 +57,7 @@ function FakeForm() {
         formData.append('url', url);
         formData.append('content', content);
         if (imgFile) {
-            formData.append('Head-image', imgFile);
+            formData.append('head_image', saveImg);
         }
 
         axios
@@ -63,7 +65,7 @@ function FakeForm() {
             .then((response) => {
                 console.log(response.data);
                 closePopup();
-                window.location.href = '/';
+                window.location.href = '/report';
             })
             .catch((error) => {
                 console.log('작성 실패');

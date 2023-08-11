@@ -14,7 +14,7 @@ const Section = styled.div`
   color: var(--black, #000);
 
   font-family: Pretendard;
-  font-size: 1.2em;
+  font-size: 1em;
   font-weight: 700;
   line-height: normal;
 `;
@@ -28,7 +28,7 @@ const Input = styled.div`
   color: var(--ain, #3a42bf);
 
   font-family: Pretendard;
-  font-size: 14px;
+  font-size: 0.7em;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
@@ -55,7 +55,7 @@ function MainPhone() {
         <p>이미 검증된 허위 뉴스를 찾아 보세요</p>
         <Input>
           <p>찾고자 하는 이슈의 키워드를 입력하세요</p>
-          <img src="" alt="search" />
+          <img src="./search.png" width={"13px"} />
         </Input>
       </Section>
       <Section>

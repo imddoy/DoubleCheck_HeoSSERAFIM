@@ -1,5 +1,6 @@
 import React from "react";
 import { styled } from "styled-components";
+import { Link } from "react-router-dom";
 
 const Navbar = styled.div`
   width: 100%;
@@ -19,7 +20,9 @@ const Logo = styled.p`
 function NavPhone() {
   return (
     <Navbar>
-      <img src="/Nav.png" alt="nav" />
+      <Link to="/Nav">
+        <img src="/Nav.png" alt="nav" width={"20px"} />
+      </Link>
       <Logo>DOUBLE CHECK</Logo>
       <div></div>
     </Navbar>

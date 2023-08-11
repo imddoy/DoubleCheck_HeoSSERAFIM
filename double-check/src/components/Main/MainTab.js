@@ -55,7 +55,7 @@ function MainTab() {
         <p>이미 검증된 허위 뉴스를 찾아 보세요</p>
         <Input>
           <p>찾고자 하는 이슈의 키워드를 입력하세요</p>
-          <img src="" alt="search" />
+          <img src="./search.png" />
         </Input>
       </Section>
       <Section>
