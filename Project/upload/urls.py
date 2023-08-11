@@ -18,9 +18,10 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('upload/', include('uploadPage.urls')),
-    path('feedback/', include('feedback.urls')),
-    path('verify/',include('Verify.urls') ),
+    path("admin/", admin.site.urls),
+    path("upload/", include("uploadPage.urls")),
+    path("feedback/", include("feedback.urls")),
+    path("verify/", include("Verify.urls")),
+    path("trend/", include("trend.urls")),
 ]
 
