@@ -23,3 +23,4 @@ urlpatterns = [
     path('feedback/', include('feedback.urls')),
     path('verify/',include('Verify.urls') ),
 ]
+
