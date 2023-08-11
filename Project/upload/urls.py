@@ -24,3 +24,4 @@ urlpatterns = [
     path("verify/", include("Verify.urls")),
     path("trend/", include("trend.urls")),
 ]
+
