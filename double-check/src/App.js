@@ -6,6 +6,7 @@ import ReportList from "./pages/ReportListPage";
 import Fakenews from "./pages/Fakenews";
 import Trends from "./pages/Trends";
 import TruthCheck from "./pages/TruthCheckPage";
+import Nav from "./pages/NavPage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/truthcheck" element={<TruthCheck />} />
             <Route path="fakenews" element={<Fakenews />} />
             <Route path="trend" element={<Trends />} />
+            <Route path="nav" element={<Nav />} />
           </Route>
         </Routes>
       </>
