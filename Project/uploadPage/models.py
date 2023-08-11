@@ -6,7 +6,7 @@ class Post(models.Model):
     target = models.CharField(max_length=100)
     url = models.URLField()
     content = models.TextField()
-    head_image = models.ImageField(upload_to='images/')
+    head_image = models.ImageField(upload_to='images/', blank=True, null=True)
     created_at = models.DateField(auto_now=True)
 
     def __str__(self):
