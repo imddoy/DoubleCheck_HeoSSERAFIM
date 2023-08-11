@@ -1,3 +1,4 @@
+
 from django.db import models
 
 
@@ -12,6 +13,7 @@ class YouTubeData(models.Model):
 # YouTubeData 테이블과 1:N 관계
 # 해시태그를 각 DB에 저장 for counting
 class Hashtag(models.Model):
+
     youtube_data = models.ForeignKey(
         YouTubeData, related_name="hashtags", on_delete=models.CASCADE
     )

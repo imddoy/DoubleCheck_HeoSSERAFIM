@@ -14,63 +14,83 @@ import { Popup, Overlay, PopupInner, InnerP, PoPBtn } from "../Popup/Popup";
 import Report from "../../img/report.svg";
 
 function FakeForm() {
-  const [title, setTitle] = useState("");
-  const [target, setTarget] = useState("");
-  const [url, setUrl] = useState("");
-  const [content, setContent] = useState("");
-  const [imgFile, setImgFile] = useState("");
-  const imgRef = useRef();
 
-  const [showPopup, setShowPopup] = useState(false);
-  const [showError, setShowError] = useState(false);
-  const [showBlank, setShowBlank] = useState(false);
+    const [title, setTitle] = useState('');
+    const [target, setTarget] = useState('');
+    const [url, setUrl] = useState('');
+    const [content, setContent] = useState('');
+    const [imgFile, setImgFile] = useState('');
+    const [saveImg, setSaveImg] = useState('');
+    const imgRef = useRef();
 
-  const handleTitle = (e) => {
-    setTitle(e.target.value);
-  };
-  const handleTarget = (e) => {
-    setTarget(e.target.value);
-  };
-  const handleUrl = (e) => {
-    setUrl(e.target.value);
-  };
-  const handleContent = (e) => {
-    setContent(e.target.value);
-  };
+    const [showPopup, setShowPopup] = useState(false);
+    const [showError, setShowError] = useState(false);
+    const [showBlank, setShowBlank] = useState(false);
 
-  const saveImgFile = () => {
-    const file = imgRef.current.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setImgFile(reader.result);
+    const handleTitle = (e) => {
+        setTitle(e.target.value);
     };
-  };
-  const postFake = (e) => {
-    e.preventDefault();
-    const formData = new FormData();
+    const handleTarget = (e) => {
+        setTarget(e.target.value);
+    };
+    const handleUrl = (e) => {
+        setUrl(e.target.value);
+    };
+    const handleContent = (e) => {
+        setContent(e.target.value);
+    };
 
-    formData.append("title", title);
-    formData.append("target", target);
-    formData.append("url", url);
-    formData.append("content", content);
-    if (imgFile) {
-      formData.append("head_image", imgFile);
-    }
+    const saveImgFile = () => {
+        const file = imgRef.current.files[0];
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+            setImgFile(reader.result);
+            setSaveImg(file);
+        };
+    };
+    const postFake = (e) => {
+        e.preventDefault();
+        const formData = new FormData();
 
-    axios
-      .post("http://127.0.0.1:8000/upload/", formData)
-      .then((response) => {
-        console.log(response.data);
-        closePopup();
-        window.location.href = "/";
-      })
-      .catch((error) => {
-        console.log("작성 실패");
-        console.log(error.message);
-        console.log(error);
-        if (error.response && error.response.data) {
-          console.log(error.response.data);
+        formData.append('title', title);
+        formData.append('target', target);
+        formData.append('url', url);
+        formData.append('content', content);
+        if (imgFile) {
+            formData.append('head_image', saveImg);
+        }
+
+        axios
+            .post('http://127.0.0.1:8000/upload/', formData)
+            .then((response) => {
+                console.log(response.data);
+                closePopup();
+                window.location.href = '/report';
+            })
+            .catch((error) => {
+                console.log('작성 실패');
+                console.log(error.message);
+                console.log(error);
+                if (error.response && error.response.data) {
+                    console.log(error.response.data);
+                }
+
+                closePopup();
+                openError();
+            });
+    };
+
+    const cancle = (e) => {
+        window.location.href = '/';
+    };
+
+    const openPopup = () => {
+        if (!title.trim() || !target.trim() || !url.trim() || !content.trim()) {
+            openBlank();
+        } else {
+            setShowPopup(true);
+
         }
 
         closePopup();
