@@ -1,242 +1,63 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Btn,
     BtnDiv,
     Flabel,
-    Form,
     Img,
-    StyledForm,
-    FileInputLabel,
-} from './FakenewsStyle';
+    StyledDiv,
+    FormDiv,
+} from './FakeDetailStyle';
 import axios from 'axios';
-import Default from '../../img/default.svg';
-import { Popup, Overlay, PopupInner, InnerP, PoPBtn } from '../Popup/Popup';
-import Report from '../../img/report.svg';
+import { useParams } from 'react-router-dom';
 
 function FakeForm() {
-    const [title, setTitle] = useState('');
-    const [target, setTarget] = useState('');
-    const [url, setUrl] = useState('');
-    const [content, setContent] = useState('');
-    const [imgFile, setImgFile] = useState('');
-    const [saveImg, setSaveImg] = useState('');
-    const imgRef = useRef();
-
-    const [showPopup, setShowPopup] = useState(false);
-    const [showError, setShowError] = useState(false);
-    const [showBlank, setShowBlank] = useState(false);
-
-    const handleTitle = (e) => {
-        setTitle(e.target.value);
+    const cancle = (e) => {
+        window.location.href = '/report';
     };
-    const handleTarget = (e) => {
-        setTarget(e.target.value);
-    };
-    const handleUrl = (e) => {
-        setUrl(e.target.value);
-    };
-    const handleContent = (e) => {
-        setContent(e.target.value);
-    };
+    const { id } = useParams();
+    const [data, setData] = useState([]);
 
-    const saveImgFile = () => {
-        const file = imgRef.current.files[0];
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onloadend = () => {
-            setImgFile(reader.result);
-            setSaveImg(file);
-        };
-    };
-    const postFake = (e) => {
-        e.preventDefault();
-        const formData = new FormData();
-
-        formData.append('title', title);
-        formData.append('target', target);
-        formData.append('url', url);
-        formData.append('content', content);
-        if (imgFile) {
-            formData.append('head_image', saveImg);
-        }
-
+    useEffect(() => {
         axios
-            .post('http://127.0.0.1:8000/upload/', formData)
+            .get(`http://127.0.0.1:8000/upload/${id}`)
             .then((response) => {
-                console.log(response.data);
-                closePopup();
-                window.location.href = '/report';
+                setData(response.data);
             })
             .catch((error) => {
-                console.log('작성 실패');
-                console.log(error.message);
-                console.log(error);
-                if (error.response && error.response.data) {
-                    console.log(error.response.data);
-                }
-
-                closePopup();
-                openError();
+                console.log(error.response.data);
             });
+    }, []);
+
+    const formatDateString = (dateStr) => {
+        const dateObj = new Date(dateStr);
+        const year = dateObj.getFullYear();
+        const month = dateObj.getMonth() + 1; // JavaScript의 month는 0에서 시작합니다.
+        const day = dateObj.getDate();
+        return `${year}년 ${month}월 ${day}일에 작성된 글입니다.`;
     };
 
-    const cancle = (e) => {
-        window.location.href = '/';
-    };
-
-    const openPopup = () => {
-        if (!title.trim() || !target.trim() || !url.trim() || !content.trim()) {
-            openBlank();
-        } else {
-            setShowPopup(true);
-        }
-    };
-
-    const closePopup = () => {
-        setShowPopup(false);
-    };
-
-    const openError = () => {
-        setShowError(true);
-    };
-
-    const closeError = () => {
-        setShowError(false);
-    };
-
-    const openBlank = () => {
-        setShowBlank(true);
-    };
-
-    const closeBlank = () => {
-        setShowBlank(false);
-    };
     return (
-        <StyledForm onSubmit={postFake}>
+        <StyledDiv>
             <Flabel>제목</Flabel>
-            <Form
-                placeholder="제목을 입력하세요."
-                onChange={handleTitle}
-            ></Form>
+            <FormDiv>{data.title}</FormDiv>
             <Flabel>신고 대상</Flabel>
-            <Form
-                placeholder="신고하고자 하는 대상을 입력하세요."
-                onChange={handleTarget}
-            ></Form>
+            <FormDiv>{data.target}</FormDiv>
             <Flabel>신고 콘텐츠 링크</Flabel>
-            <Form
-                placeholder="신고하고자 하는 콘텐츠의 링크를 입력하세요."
-                onChange={handleUrl}
-            ></Form>
+            <FormDiv>{data.url}</FormDiv>
             <Flabel>내용</Flabel>
-            <Form
-                placeholder="신고 사유 및 세부 설명을 입력하세요."
-                onChange={handleContent}
-            ></Form>
-            <Img src={imgFile ? imgFile : Default}></Img>
-
-            <FileInputLabel>
-                파일 선택
-                <input
-                    style={{ display: 'none' }}
-                    type="file"
-                    accept="image/*"
-                    onChange={saveImgFile}
-                    ref={imgRef}
-                />
-            </FileInputLabel>
+            <FormDiv>{data.content}</FormDiv>
+            <Img
+                src={`http://localhost:8000${data.head_image}`}
+                alt="Report Image"
+            ></Img>
 
             <BtnDiv>
+                <Flabel>{formatDateString(data.created_at)}</Flabel>
                 <Btn color="#525252" onClick={cancle}>
-                    취소
-                </Btn>
-                <Btn
-                    bg="#3A42BF"
-                    color="white"
-                    onClick={openPopup}
-                    type="button"
-                >
-                    작성
+                    돌아가기
                 </Btn>
             </BtnDiv>
-
-            {showPopup ? (
-                <Overlay>
-                    <Popup>
-                        <PopupInner>
-                            <img src={Report}></img>
-                            <InnerP>해당 콘텐츠를 신고하시겠습니까?</InnerP>
-                            <InnerP color={'#525252'}>
-                                작성된 게시글은 수정 및 삭제가 불가합니다.
-                            </InnerP>
-
-                            <div>
-                                <PoPBtn
-                                    onClick={closePopup}
-                                    color="black"
-                                    bg="white"
-                                >
-                                    취소
-                                </PoPBtn>
-                                <PoPBtn
-                                    color="white"
-                                    bg="#3A42BF"
-                                    type="submit"
-                                >
-                                    등록
-                                </PoPBtn>
-                            </div>
-                        </PopupInner>
-                    </Popup>
-                </Overlay>
-            ) : null}
-
-            {showError ? (
-                <Overlay>
-                    <Popup>
-                        <PopupInner>
-                            <img src={Report}></img>
-                            <InnerP>
-                                콘텐츠 링크 주소가 잘못되었습니다.
-                                <br /> 다시 입력해 주세요.
-                            </InnerP>
-
-                            <div>
-                                <PoPBtn
-                                    color="white"
-                                    bg="#3A42BF"
-                                    type="button"
-                                    onClick={closeError}
-                                >
-                                    확인
-                                </PoPBtn>
-                            </div>
-                        </PopupInner>
-                    </Popup>
-                </Overlay>
-            ) : null}
-            {showBlank ? (
-                <Overlay>
-                    <Popup>
-                        <PopupInner>
-                            <img src={Report}></img>
-                            <InnerP>빈칸을 입력하세요.</InnerP>
-
-                            <div>
-                                <PoPBtn
-                                    color="white"
-                                    bg="#3A42BF"
-                                    type="button"
-                                    onClick={closeBlank}
-                                >
-                                    확인
-                                </PoPBtn>
-                            </div>
-                        </PopupInner>
-                    </Popup>
-                </Overlay>
-            ) : null}
-        </StyledForm>
+        </StyledDiv>
     );
 }
 

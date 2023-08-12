@@ -1,6 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import default_img from '../../img/default_image.png';
 import axios from 'axios';
 import {
     Fdiv,
@@ -30,7 +29,7 @@ function ReportList() {
     }, []);
 
     const onClickToDetail = (id) => {
-        window.location.href = `/림아 페이지 만들고 url 여기다가 넣어줘잉/${id}`;
+        window.location.href = `/fakenews/${id}`;
     };
 
     return (
