@@ -7,6 +7,7 @@ import Fakenews from "./pages/Fakenews";
 import Trends from "./pages/Trends";
 import TruthCheck from "./pages/TruthCheckPage";
 import Nav from "./pages/NavPage";
+import Search from "./pages/SearchPage";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Root />}>
             <Route path="/" element={<Main />} />
+            <Route path="search" element={<Search />} />
             <Route path="/report" element={<ReportList />} />
             <Route path="/truthcheck" element={<TruthCheck />} />
             <Route path="fakenews" element={<Fakenews />} />
