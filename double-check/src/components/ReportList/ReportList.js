@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 import axios from "axios";
 import {
   Fdiv,
@@ -7,18 +8,46 @@ import {
   LDiv,
   LBox,
   ListSmall,
-  ListBig,
   BTitle,
   BText,
   BBtn,
-  BImg,
   SBox,
 } from "./ReportListStyle";
+
+const Pagination = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 52px;
+`;
 
 function ReportList() {
   const [report, setReports] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 4;
+  const [itemsPerPage, setItemsPerPage] = useState(4);
+
+  useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth <= 400) {
+        // Mobile breakpoint
+        setItemsPerPage(2); // 2 items for mobile
+      } else if (window.innerWidth > 400 && window.innerWidth <= 660) {
+        setItemsPerPage(4); // 4 items for tablet and PC
+      } else {
+        setItemsPerPage(6); // more items for larger screens
+      }
+    }
+
+    handleResize();
+
+    // 리사이즈 이벤트에 이벤트 리스너 추가
+    window.addEventListener("resize", handleResize);
+
+    // 컴포넌트 언마운트 시, 이벤트 리스너 제거
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     axios
@@ -35,25 +64,13 @@ function ReportList() {
     window.location.href = `/림아 페이지 만들고 url 여기다가 넣어줘잉/${id}`;
   };
 
-  const reportsWithImage = report.filter((item) => item.head_image);
-  const reportsWithoutImage = report.filter((item) => !item.head_image);
+  const indexOfLastReport = currentPage * itemsPerPage;
+  const indexOfFirstReport = indexOfLastReport - itemsPerPage;
+  const currentReports = report.slice(indexOfFirstReport, indexOfLastReport);
 
-  // 페이지 분할
-  const currentItemImage = reportsWithImage.slice(currentPage - 1, currentPage);
-  const indexOfLastItemWithoutImage = (currentPage - 1) * itemsPerPage;
-  const currentItemTexts = reportsWithoutImage.slice(
-    indexOfLastItemWithoutImage,
-    indexOfLastItemWithoutImage + itemsPerPage
-  );
-
-  // 페이지네이션 컴포넌트 렌더링
-  const totalPages =
-    reportsWithImage.length +
-    Math.ceil(reportsWithoutImage.length / itemsPerPage);
-
-  const pageNumbers = [];
-  for (let i = 1; i <= totalPages; i++) {
-    pageNumbers.push(i);
+  const renderPageNumbers = [];
+  for (let i = 1; i <= Math.ceil(report.length / itemsPerPage); i++) {
+    renderPageNumbers.push(i);
   }
 
   return (
@@ -63,9 +80,10 @@ function ReportList() {
         <Link to="/fakenews">
           <LBtn>작성하기</LBtn>
         </Link>
+
         <LBox>
           <ListSmall>
-            {currentItemTexts.slice(0, itemsPerPage).map((event) => (
+            {currentReports.map((event) => (
               <SBox key={event.id} onClick={() => onClickToDetail(event.id)}>
                 <BTitle>{event.title}</BTitle>
                 <BText>{event.content}</BText>
@@ -73,28 +91,26 @@ function ReportList() {
               </SBox>
             ))}
           </ListSmall>
-          {currentItemImage.map((event) => (
-            <ListBig key={event.id} onClick={() => onClickToDetail(event.id)}>
-              <BTitle>{event.title}</BTitle>
-              <BImg
-                src={`http://127.0.0.1:8000${event.head_image}`}
-                alt="Report Image"
-              />
-              <BText>{event.content}</BText>
-              <BBtn>더보기</BBtn>
-            </ListBig>
-          ))}
         </LBox>
-        <div>
-          {pageNumbers.map((number) => (
-            <button key={number} onClick={() => setCurrentPage(number)}>
+
+        <Pagination>
+          {renderPageNumbers.map((number) => (
+            <span
+              key={number}
+              onClick={() => setCurrentPage(number)}
+              style={{
+                cursor: "pointer",
+                padding: "10px",
+                color: currentPage === number ? "#3A42BF" : "inherit",
+                fontWeight: "bold",
+              }}
+            >
               {number}
-            </button>
+            </span>
           ))}
-        </div>
+        </Pagination>
       </LDiv>
     </>
   );
 }
-
 export default ReportList;
