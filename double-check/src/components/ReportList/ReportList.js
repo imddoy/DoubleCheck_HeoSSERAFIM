@@ -61,7 +61,7 @@ function ReportList() {
   }, []);
 
   const onClickToDetail = (id) => {
-    window.location.href = `/림아 페이지 만들고 url 여기다가 넣어줘잉/${id}`;
+    window.location.href = `/fakenews/${id}`;
   };
 
   const indexOfLastReport = currentPage * itemsPerPage;
