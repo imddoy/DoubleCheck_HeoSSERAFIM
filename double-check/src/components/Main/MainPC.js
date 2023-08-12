@@ -1,6 +1,8 @@
 import React from "react";
 import { styled } from "styled-components";
 import { Link } from "react-router-dom";
+import Filter from "./../Trends/Filter";
+
 const Main = styled.div`
   padding: 5em 18em;
   display: flex;
@@ -52,13 +54,16 @@ function MainPC() {
       </Section>
       <Section>
         <p>이미 검증된 허위 뉴스를 찾아 보세요</p>
-        <Input>
-          <p>찾고자 하는 이슈의 키워드를 입력하세요</p>
-          <img src="" alt="search" />
-        </Input>
+        <Link to="/search">
+          <Input>
+            <p>찾고자 하는 이슈의 키워드를 입력하세요</p>
+            <img src="./search.png" />
+          </Input>
+        </Link>
       </Section>
       <Section>
-        <p>현재 가장 많이 분석되고 있어요</p>
+        <p style={{ margin: "22px 0" }}>현재 가장 많이 분석되고 있어요</p>
+        <Filter />
       </Section>
     </Main>
   );
