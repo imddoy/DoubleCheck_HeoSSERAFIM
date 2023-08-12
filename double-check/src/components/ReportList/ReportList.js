@@ -1,80 +1,116 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
+import React, { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import axios from "axios";
 import {
-    Fdiv,
-    LBtn,
-    LDiv,
-    LBox,
-    ListSmall,
-    ListBig,
-    BTitle,
-    BText,
-    BBtn,
-    BImg,
-    SBox,
-} from './ReportListStyle';
+  Fdiv,
+  LBtn,
+  LDiv,
+  LBox,
+  ListSmall,
+  BTitle,
+  BText,
+  BBtn,
+  SBox,
+} from "./ReportListStyle";
+
+const Pagination = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 52px;
+`;
 
 function ReportList() {
-    const [report, setReports] = useState([]);
-    useEffect(() => {
-        axios
-            .get('http://127.0.0.1:8000/upload/')
-            .then((response) => {
-                setReports(response.data);
-            })
-            .catch((error) => {
-                console.log(error.response.data);
-            });
-    }, []);
+  const [report, setReports] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(4);
 
-    const onClickToDetail = (id) => {
-        window.location.href = `/fakenews/${id}`;
+  useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth <= 400) {
+        // Mobile breakpoint
+        setItemsPerPage(2); // 2 items for mobile
+      } else if (window.innerWidth > 400 && window.innerWidth <= 660) {
+        setItemsPerPage(4); // 4 items for tablet and PC
+      } else {
+        setItemsPerPage(6); // more items for larger screens
+      }
+    }
+
+    handleResize();
+
+    // 리사이즈 이벤트에 이벤트 리스너 추가
+    window.addEventListener("resize", handleResize);
+
+    // 컴포넌트 언마운트 시, 이벤트 리스너 제거
+    return () => {
+      window.removeEventListener("resize", handleResize);
     };
+  }, []);
 
-    return (
-        <>
-            <Fdiv>허위뉴스를 신고해주세요</Fdiv>
-            <LDiv>
-                <Link to="/fakenews">
-                    <LBtn>작성하기</LBtn>
-                </Link>
-                <LBox>
-                    {report.map((event) => {
-                        if (event.head_image) {
-                            return (
-                                // ListBig for reports with an image
-                                <ListBig
-                                    key={event.id}
-                                    onClick={() => onClickToDetail(event.id)}
-                                >
-                                    <BTitle>{event.title}</BTitle>
+  useEffect(() => {
+    axios
+      .get("http://127.0.0.1:8000/upload/")
+      .then((response) => {
+        setReports(response.data);
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+  }, []);
 
-                                    <BImg
-                                        src={`http://localhost:8000${event.head_image}`}
-                                        alt="Report Image"
-                                    />
-                                    <BText>{event.content}</BText>
-                                    <BBtn>더보기</BBtn>
-                                </ListBig>
-                            );
-                        } else {
-                            return (
-                                // ListSmall for reports without an image
-                                <ListSmall key={event.id}>
-                                    <SBox>
-                                        <BTitle>{event.title}</BTitle>
-                                        <BText>{event.content}</BText>
-                                        <BBtn>더보기</BBtn>
-                                    </SBox>
-                                </ListSmall>
-                            );
-                        }
-                    })}
-                </LBox>
-            </LDiv>
-        </>
-    );
+  const onClickToDetail = (id) => {
+    window.location.href = `/fakenews/${id}`;
+  };
+
+  const indexOfLastReport = currentPage * itemsPerPage;
+  const indexOfFirstReport = indexOfLastReport - itemsPerPage;
+  const currentReports = report.slice(indexOfFirstReport, indexOfLastReport);
+
+  const renderPageNumbers = [];
+  for (let i = 1; i <= Math.ceil(report.length / itemsPerPage); i++) {
+    renderPageNumbers.push(i);
+  }
+
+  return (
+    <>
+      <Fdiv>허위뉴스를 신고해주세요</Fdiv>
+      <LDiv>
+        <Link to="/fakenews">
+          <LBtn>작성하기</LBtn>
+        </Link>
+
+        <LBox>
+          <ListSmall>
+            {currentReports.map((event) => (
+              <SBox key={event.id} onClick={() => onClickToDetail(event.id)}>
+                <BTitle>{event.title}</BTitle>
+                <BText>{event.content}</BText>
+                <BBtn>더보기</BBtn>
+              </SBox>
+            ))}
+          </ListSmall>
+        </LBox>
+
+        <Pagination>
+          {renderPageNumbers.map((number) => (
+            <span
+              key={number}
+              onClick={() => setCurrentPage(number)}
+              style={{
+                cursor: "pointer",
+                padding: "10px",
+                color: currentPage === number ? "#3A42BF" : "inherit",
+                fontWeight: "bold",
+              }}
+            >
+              {number}
+            </span>
+          ))}
+        </Pagination>
+      </LDiv>
+    </>
+  );
 }
-
 export default ReportList;
