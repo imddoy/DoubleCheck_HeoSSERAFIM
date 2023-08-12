@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import MainPC from "./../components/Main/MainPC";
 import MainTab from "./../components/Main/MainTab";
 import MainPhone from "./../components/Main/MainPhone";
+import FilterMobile from "../components/Trends/FilterMobile";
+import Filter from "../components/Trends/Filter";
 
 function MainPage() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
