@@ -80,14 +80,13 @@ export const FilterDiv = styled.div`
   }
 `;
 
-export const ListImg = styled.div`
+export const ListImg = styled.img`
   width: 626px;
   height: 351.439px;
-  background-color: #d9d9d9;
   border-radius: 8px;
   margin-top: 22px;
   margin-bottom: 30px;
-
+  object-fit: cover;
   ${responsiveWidth}
   ${responsiveHeight}
 `;
