@@ -11,7 +11,6 @@ function Filter() {
   useEffect(() => {
     getDatas();
   }, [id]);
-
   const getDatas = async () => {
     await axios
       .get("http://127.0.0.1:8000/trend/ ")
@@ -21,25 +20,19 @@ function Filter() {
         console.log(datas);
       })
       .catch((error) => {
-        console.log("전체 글 불러오기 실패", error.message);
+        console.log("트렌드 불러오기 실패", error.message);
       });
   };
-  let cnt = 0;
-  if (id) {
-  }
   return (
     <FilterBox>
       {datas &&
         datas.map((item, index) => {
-          cnt++;
           return (
-            <Link to={`/trend/${cnt}`}>
+            <Link to={`/trend/${index + 1}`}>
               <FilterDiv
-                onClick={() => setIsSelected(!isSelected)}
                 style={{
-                  backgroundColor:
-                    id && id == index + 1 && isSelected ? "white" : "",
-                  color: id && id == index + 1 && isSelected ? "#3a42bf" : "",
+                  backgroundColor: id && id == index + 1 ? "white" : "",
+                  color: id && id == index + 1 ? "#3a42bf" : "",
                 }}
                 id={index + 1}
               >
