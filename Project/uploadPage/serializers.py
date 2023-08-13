@@ -7,3 +7,8 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = '__all__'
+
+class PostNoImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = ['title', 'target', 'upload_url', 'content', 'created_at']
