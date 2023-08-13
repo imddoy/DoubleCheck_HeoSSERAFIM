@@ -1,26 +1,28 @@
 import { React, useEffect, useState } from "react";
 import { ListImg, Percent, TDiv, Title } from "./TrendsStyle";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
-function List(props) {
+function List() {
+  const { id } = useParams();
   const [datas, setDatas] = useState([]);
   useEffect(() => {
     getDatas();
-  }, [props.id]);
+  }, [id]);
 
   const getDatas = async () => {
     await axios
-      .get(`http://127.0.0.1:8000/trend/${props.id}`)
+      .get(`http://127.0.0.1:8000/trend/${id}`)
       .then((response) => {
         setDatas(response.data);
         console.log("성공");
         console.log(datas);
       })
       .catch((error) => {
-        console.log("전체 글 불러오기 실패", error.message);
+        console.log("리스트 실패", error.message);
       });
   };
-  if (!props.id) {
+  if (!id) {
     return <Title>트렌드를 선택해주세요</Title>;
   }
   return (
