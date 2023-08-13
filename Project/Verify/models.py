@@ -8,6 +8,8 @@ class YouTubeData(models.Model):
     title = models.CharField(max_length=200, null=True, blank=True)
     # 썸네일 - 이미지 URL
     thumbnail_url = models.URLField(max_length=500, blank=True, null=True)
+    judge = models.CharField(max_length=10,null=True)
+    percent = models.IntegerField(default=0)
 
 
 
