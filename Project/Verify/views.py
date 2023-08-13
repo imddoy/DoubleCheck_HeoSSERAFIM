@@ -142,7 +142,7 @@ def youtube_description(request):
             hashtags = " ".join(p.findall(description))
 
             youtube_data = YouTubeData(
-                url=user_input, title=title, thumbnail_url=thumbnail_url
+                url=user_input, title=title, thumbnail_url=thumbnail_url, judge=result, percent= probability
             )
 
             youtube_data.save()
@@ -150,6 +150,6 @@ def youtube_description(request):
             for hashtag in p.findall(description):
                 Hashtag.objects.create(youtube_data=youtube_data, tag=hashtag)
 
-            return Response({"title": title, "srt": all_text})
+            return Response({"title": title, "srt": all_text, "judge": result, "percent" : int(probability)})
 
         return Response(serializer.errors, status=400)
