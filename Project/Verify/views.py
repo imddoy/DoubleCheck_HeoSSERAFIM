@@ -1,15 +1,16 @@
 
-from django.shortcuts import render
-from .serializers import YouTubeURLSerializer
+# from django.shortcuts import render
+# from .serializers import YouTubeURLSerializer
 
 
-# Create your views here.
-import re
-from rest_framework.decorators import api_view
-import requests
-from rest_framework.response import Response
-from youtube_transcript_api import YouTubeTranscriptApi
-from .models import *
+# # Create your views here.
+# import re
+# from rest_framework.decorators import api_view
+# import requests
+# from rest_framework.response import Response
+# from youtube_transcript_api import YouTubeTranscriptApi
+# from .models import *
+# from langdetect import detect
 
 
 # # Django view 형식 DRF로 확장
@@ -85,14 +86,22 @@ from .models import *
 
 #         return Response(serializer.errors, status=400)
 
+from django.shortcuts import render
+from .serializers import YouTubeURLSerializer
+from rest_framework.decorators import api_view
+import re
+import requests
+from rest_framework.response import Response
+from youtube_transcript_api import YouTubeTranscriptApi
+from .models import *
+from langdetect import detect
+
 @api_view(["POST"])
 def youtube_description(request):
     serializer = YouTubeURLSerializer(data=request.data)
 
     if serializer.is_valid():
-
         user_input = serializer.validated_data["youtube_url"]
-
         pattern = r"(?:v=|/v/|/embed/|/youtu\.be/|/[\w\-]+\?v=|/video/)([^#&?]*).*"
         match = re.search(pattern, user_input)
         
@@ -101,16 +110,16 @@ def youtube_description(request):
             API_KEY = "AIzaSyCMHMYV3ug24VPi_vksSkNKWkW0B0Fv3Gc"
 
             try:
-                srt_ko = YouTubeTranscriptApi.get_transcript(VIDEO_ID, languages=["ko"])
-                all_text_ko = " ".join([entry["text"] for entry in srt_ko])
-            except:
-                all_text_ko = "Korean subtitles not available."
+                srt = YouTubeTranscriptApi.get_transcript(VIDEO_ID, languages=["ko", "en"])
+                all_text = " ".join([entry["text"] for entry in srt])
 
-            try:
-                srt_en = YouTubeTranscriptApi.get_transcript(VIDEO_ID, languages=["en"])
-                all_text_en = " ".join([entry["text"] for entry in srt_en])
+                detected_language = detect(all_text)
+
+                if detected_language != "ko" and detected_language != "en":
+                    raise Exception("Unsupported language")
+
             except:
-                all_text_en = "English subtitles not available."
+                all_text = "Subtitles not available."
 
             url = f"https://www.googleapis.com/youtube/v3/videos?id={VIDEO_ID}&key={API_KEY}&part=snippet"
             response = requests.get(url)
@@ -125,14 +134,15 @@ def youtube_description(request):
             hashtags = " ".join(p.findall(description))
 
             youtube_data = YouTubeData(
-                url=user_input, title=title, thumbnail_url=thumbnail_url
+                url=user_input, title=title, thumbnail_url=thumbnail_url 
             )
 
             youtube_data.save()
 
-            for hashtags in p.findall(description):
-                Hashtag.objects.create(youtube_data=youtube_data, tag=hashtags)
+            for hashtag in p.findall(description):
+                Hashtag.objects.create(youtube_data=youtube_data, tag=hashtag)
 
-            return Response({"title": title, "srt_ko": all_text_ko, "srt_en": all_text_en})
+            return Response({"title": title, "srt": all_text})
 
         return Response(serializer.errors, status=400)
+

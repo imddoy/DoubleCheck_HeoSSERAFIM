@@ -10,6 +10,8 @@ class YouTubeData(models.Model):
     thumbnail_url = models.URLField(max_length=500, blank=True, null=True)
 
 
+
+
 # YouTubeData 테이블과 1:N 관계
 # 해시태그를 각 DB에 저장 for counting
 class Hashtag(models.Model):
