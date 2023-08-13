@@ -1,42 +1,50 @@
-import React, { useState } from 'react';
-import { FilterBox, FilterBox2, FilterDiv } from './TrendsStyle';
-
+import React, { useState, useEffect } from "react";
+import { FilterBox, FilterBox2, FilterDiv } from "./TrendsStyle";
+import axios from "axios";
 function Filter() {
-    const [isSelected, setIsSelected] = useState(null);
+  const [isSelected, setIsSelected] = useState(null);
+  const [datas, setDatas] = useState([]);
+  useEffect(() => {
+    getDatas();
+  }, []);
 
-    return (
-        <>
-            <FilterBox>
-                <FilterDiv onClick={() => setIsSelected(!isSelected)}>
-                    멋쟁이 사자처럼 덕성
-                </FilterDiv>
-                <FilterDiv onClick={() => setIsSelected(!isSelected)}>
-                    허세라핌
-                </FilterDiv>
-                <FilterDiv onClick={() => setIsSelected(!isSelected)}>
-                    김나리
-                </FilterDiv>
-                <FilterDiv onClick={() => setIsSelected(!isSelected)}>
-                    김채이
-                </FilterDiv>
-            </FilterBox>
+  const getDatas = async () => {
+    await axios
+      .get("http://127.0.0.1:8000/trend/ ")
+      .then((response) => {
+        setDatas(response.data);
+        console.log("성공");
+        console.log(datas);
+      })
+      .catch((error) => {
+        console.log("전체 글 불러오기 실패", error.message);
+      });
+  };
+  const halfIndex = Math.ceil(datas.length / 2);
 
-            <FilterBox2>
-                <FilterDiv onClick={() => setIsSelected(!isSelected)}>
-                    김채현
-                </FilterDiv>
-                <FilterDiv onClick={() => setIsSelected(!isSelected)}>
-                    노하림
-                </FilterDiv>
-                <FilterDiv onClick={() => setIsSelected(!isSelected)}>
-                    이서진
-                </FilterDiv>
-                <FilterDiv onClick={() => setIsSelected(!isSelected)}>
-                    덕멋 대표 허은
-                </FilterDiv>
-            </FilterBox2>
-        </>
-    );
+  const firstHalfData = datas.slice(0, halfIndex);
+  const secondHalfData = datas.slice(halfIndex);
+  return (
+    <>
+      <FilterBox>
+        {datas &&
+          firstHalfData.map((item) => (
+            <FilterDiv onClick={() => setIsSelected(!isSelected)}>
+              {item}
+            </FilterDiv>
+          ))}
+      </FilterBox>
+
+      <FilterBox2>
+        {datas &&
+          secondHalfData.map((item) => (
+            <FilterDiv onClick={() => setIsSelected(!isSelected)}>
+              {item}
+            </FilterDiv>
+          ))}{" "}
+      </FilterBox2>
+    </>
+  );
 }
 
 export default Filter;

@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { FilterBox, FilterDiv } from "./TrendsStyle";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
+
 function Filter() {
+  const { id } = useParams();
   const [isSelected, setIsSelected] = useState(null);
   const [datas, setDatas] = useState([]);
   useEffect(() => {
     getDatas();
-  }, []);
+  }, [id]);
 
   const getDatas = async () => {
     await axios
@@ -20,19 +24,30 @@ function Filter() {
         console.log("전체 글 불러오기 실패", error.message);
       });
   };
-
+  let cnt = 0;
+  if (id) {
+  }
   return (
     <FilterBox>
-      <FilterDiv onClick={() => setIsSelected(!isSelected)}>
-        멋쟁이 사자처럼 덕성
-      </FilterDiv>
-      <FilterDiv onClick={() => setIsSelected(!isSelected)}>허세라핌</FilterDiv>
-      <FilterDiv onClick={() => setIsSelected(!isSelected)}>김나리</FilterDiv>
-      <FilterDiv onClick={() => setIsSelected(!isSelected)}>김채이</FilterDiv>
-      <FilterDiv onClick={() => setIsSelected(!isSelected)}>김채현</FilterDiv>
-      <FilterDiv onClick={() => setIsSelected(!isSelected)}>노하림</FilterDiv>
-      <FilterDiv onClick={() => setIsSelected(!isSelected)}>이서진</FilterDiv>
-      <FilterDiv onClick={() => setIsSelected(!isSelected)}>허은</FilterDiv>
+      {datas &&
+        datas.map((item, index) => {
+          cnt++;
+          return (
+            <Link to={`/trend/${cnt}`}>
+              <FilterDiv
+                onClick={() => setIsSelected(!isSelected)}
+                style={{
+                  backgroundColor:
+                    id && id == index + 1 && isSelected ? "white" : "",
+                  color: id && id == index + 1 && isSelected ? "#3a42bf" : "",
+                }}
+                id={index + 1}
+              >
+                {item}
+              </FilterDiv>
+            </Link>
+          );
+        })}
     </FilterBox>
   );
 }
