@@ -69,11 +69,6 @@ export const RImg = styled.div`
   align-self: center;
   margin: 0 auto;
   margin-bottom: 8px;
-
-  @media screen and (max-width: 350px) {
-    width: 280px;
-    height: 280px;
-  }
 `;
 
 export const RName = styled.div`
@@ -134,14 +129,12 @@ export const ListSmall = styled.div`
   height: 290px;
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
   gap: 14px;
-  @media screen and (max-width: 610px) {
-    width: 164px;
-  }
 `;
 
 export const SBox = styled.div`
-  width: 164px;
+  width: 31.333%; // Default width as 50% of ListSmall's width
   height: 138px;
   display: flex;
   flex-direction: column;
@@ -151,6 +144,13 @@ export const SBox = styled.div`
   background-color: white;
   border-radius: 10px;
   padding: 0px 12px 15px 12px;
+
+  @media screen and (max-width: 660px) {
+    width: 47%; // Full width on mobile
+  }
+  @media screen and (max-width: 400px) {
+    width: 100%; // Full width on mobile
+  }
 `;
 
 export const ListBig = styled.div`
@@ -193,7 +193,7 @@ export const BImg = styled.img`
 `;
 
 export const BText = styled.div`
-  width: 138px;
+  width: 100%;
   height: 52px;
   flex-shrink: 0;
   color: #000;

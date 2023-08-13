@@ -7,7 +7,8 @@ import Fakenews from "./pages/Fakenews";
 import Trends from "./pages/Trends";
 import TruthCheck from "./pages/TruthCheckPage";
 import Nav from "./pages/NavPage";
-
+import FakeDetail from "./pages/FakeDetail";
+import Search from "./pages/SearchPage";
 function App() {
   return (
     <BrowserRouter>
@@ -21,6 +22,9 @@ function App() {
             <Route path="fakenews" element={<Fakenews />} />
             <Route path="trend" element={<Trends />} />
             <Route path="nav" element={<Nav />} />
+            <Route path="search" element={<Search />} />
+            <Route exact path="fakenews/:id" element={<FakeDetail />} />
+            <Route exact path="/trend/:id" element={<Trends />} />
           </Route>
         </Routes>
       </>
