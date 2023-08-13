@@ -6,6 +6,7 @@ from .serializers import YouTubeURLSerializer
 # Create your views here.
 import re
 from rest_framework.decorators import api_view
+from rest_framework.views import APIView
 import requests
 from rest_framework.response import Response
 from youtube_transcript_api import YouTubeTranscriptApi
@@ -13,6 +14,10 @@ from .models import *
 
 from googletrans import Translator
 from langdetect import detect
+import pickle
+from sklearn.feature_extraction.text import TfidfVectorizer
+from .utils import preprocessor
+from .utils import tokenizer_porter
 
 
 def text_and_translate(user_title, user_text):
@@ -29,7 +34,12 @@ def text_and_translate(user_title, user_text):
 
 def predict_fake_or_real(news_text):
 
-
+    # clf 객체 로딩
+    with open('text_classifier_model.pkl', 'rb') as f:
+        clf = pickle.load(f)
+    with open('tfidf_vectorizer.pkl', 'rb') as tfidf_file:
+        tfidf = pickle.load(tfidf_file)
+        
     # 전처리 단계
     news_text = preprocessor(news_text)
     news_text = ' '.join(tokenizer_porter(news_text))
@@ -49,6 +59,11 @@ def predict_fake_or_real(news_text):
 
 def explain_prediction(news_text, result):
 
+    # clf 객체 로딩
+    with open('text_classifier_model.pkl', 'rb') as f:
+        clf = pickle.load(f)
+    with open('tfidf_vectorizer.pkl', 'rb') as tfidf_file:
+        tfidf = pickle.load(tfidf_file)
 
     news_text = preprocessor(news_text)
     news_text = ' '.join(tokenizer_porter(news_text))
@@ -69,13 +84,14 @@ def explain_prediction(news_text, result):
         return [word for word in words_importance if word[1] < 0][:10]
     else:
         return [word for word in words_importance if word[1] > 0][:10]
-    
-        
+
+
 
 @api_view(["POST"])
 def youtube_description(request):
     serializer = YouTubeURLSerializer(data=request.data)
 
+    
     if serializer.is_valid():
         user_input = serializer.validated_data["youtube_url"]
         pattern = r"(?:v=|/v/|/embed/|/youtu\.be/|/[\w\-]+\?v=|/video/)([^#&?]*).*"
@@ -106,7 +122,7 @@ def youtube_description(request):
             thumbnail_url = data["items"][0]["snippet"]["thumbnails"]["high"]["url"]
 
             user_title = title
-            user_text = srt
+            user_text = all_text  
             news_text = text_and_translate(user_title, user_text)
 
             result, probability = predict_fake_or_real(news_text)
