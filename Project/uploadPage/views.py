@@ -36,6 +36,7 @@ def search_view(request):
     else:
         return Response([])
     
+@api_view(['GET'])
 def post_detail(request, pk):
     try:
         post = Post.objects.get(pk=pk)

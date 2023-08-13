@@ -129,8 +129,8 @@ export const ListSmall = styled.div`
   height: 290px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
   gap: 14px;
+  justify-content: ${({ isEmpty }) => (isEmpty ? "center" : "space-between")};
 `;
 
 export const SBox = styled.div`

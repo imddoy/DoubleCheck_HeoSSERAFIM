@@ -21,6 +21,12 @@ const Pagination = styled.div`
   margin-top: 52px;
 `;
 
+const NoReport = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+`;
+
 function ReportList() {
   const [report, setReports] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -82,14 +88,18 @@ function ReportList() {
         </Link>
 
         <LBox>
-          <ListSmall>
-            {currentReports.map((event) => (
-              <SBox key={event.id} onClick={() => onClickToDetail(event.id)}>
-                <BTitle>{event.title}</BTitle>
-                <BText>{event.content}</BText>
-                <BBtn>더보기</BBtn>
-              </SBox>
-            ))}
+          <ListSmall isEmpty={report.length === 0}>
+            {report.length === 0 ? (
+              <NoReport>등록된 신고글이 없습니다</NoReport>
+            ) : (
+              currentReports.map((event) => (
+                <SBox key={event.id} onClick={() => onClickToDetail(event.id)}>
+                  <BTitle>{event.title}</BTitle>
+                  <BText>{event.content}</BText>
+                  <BBtn>더보기</BBtn>
+                </SBox>
+              ))
+            )}
           </ListSmall>
         </LBox>
 
