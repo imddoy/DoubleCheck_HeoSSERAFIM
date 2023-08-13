@@ -2,7 +2,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Post
-from .serializers import PostSerializer, PostNoImageSerializer
+from .serializers import PostSerializer
 from django.db.models import Count
 from django.db.models.functions import Lower
 from bs4 import BeautifulSoup
@@ -15,17 +15,31 @@ def post_list(request):
         serializer = PostSerializer(posts, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
-        if 'head_image' in request.data:
-            # 이미지가 있는 경우
-            serializer = PostSerializer(data=request.data)
-        else:
-            # 이미지가 없는 경우
-            serializer = PostNoImageSerializer(data=request.data)
+        serializer = PostSerializer(data=request.data)
 
         if serializer.is_valid():
             serializer.save()
             return Response({'message': 'Post created successfully'}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# @api_view(['GET', 'POST'])
+# def post_list(request):
+#     if request.method == 'GET':
+#         posts = Post.objects.all().order_by('-id')
+#         serializer = PostSerializer(posts, many=True)
+#         return Response(serializer.data)
+#     elif request.method == 'POST':
+#         if 'head_image' in request.data:
+#             # 이미지가 있는 경우
+#             serializer = PostSerializer(data=request.data)
+#         else:
+#             # 이미지가 없는 경우
+#             serializer = PostNoImageSerializer(data=request.data)
+
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response({'message': 'Post created successfully'}, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     
 @api_view(['GET'])
