@@ -25,3 +25,22 @@ def popular_targets(request):
     popular_targets = Post.objects.annotate(lower_target=Lower('target')).values('lower_target').annotate(target_count=Count('lower_target')).order_by('-target_count')
     return Response(popular_targets, status=status.HTTP_200_OK)
 
+@api_view(['GET'])
+def search_view(request):
+    search_query = request.query_params.get('query', '')
+
+    if search_query:
+        queryset = Post.objects.filter(target__icontains=search_query)  # target 필드를 검색하도록 수정
+        serializer = PostSerializer(queryset, many=True)
+        return Response(serializer.data)
+    else:
+        return Response([])
+    
+def post_detail(request, pk):
+    try:
+        post = Post.objects.get(pk=pk)
+    except Post.DoesNotExist:
+        return Response({'error': 'Post not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = PostSerializer(post)
+    return Response(serializer.data, status=status.HTTP_200_OK)
