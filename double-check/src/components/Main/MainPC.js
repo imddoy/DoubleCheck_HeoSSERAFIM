@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
     Img,
     Input,
     Input2,
+    FilterBox,
     InputBox,
     ResponsiveImage,
     Section,
@@ -12,10 +13,27 @@ import search from '../../img/search.png';
 import axios from 'axios';
 import mainImg from '../../img/main.png';
 import Filter from '../Trends/Filter';
+import FilterMobile from '../Trends/FilterMobile';
 
 function MainPC() {
     const [urlData, setUrlData] = useState('');
     const [isClicked, setIsClicked] = useState(false);
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+    useEffect(() => {
+        // 창 크기 변경 이벤트 핸들러
+        const handleResize = () => {
+            setWindowWidth(window.innerWidth);
+        };
+
+        // 이벤트 핸들러를 등록
+        window.addEventListener('resize', handleResize);
+
+        // 컴포넌트 언마운트 시 이벤트 핸들러를 정리
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []); // 빈 배열을 넣어 이펙트가 마운트 될 때만 등록 및 정리되도록 설정
 
     function handleClick() {
         setIsClicked(true);
@@ -64,7 +82,7 @@ function MainPC() {
                     <Img src={search} onClick={postUrl} />
                 </InputBox>
             </Section>
-            <Section mb="100px">
+            <Section>
                 <p>이미 검증된 허위 뉴스를 찾아 보세요</p>
                 <Link to="/search">
                     <Input2>
@@ -73,11 +91,13 @@ function MainPC() {
                     </Input2>
                 </Link>
             </Section>
-            <Section>
-                <p style={{ margin: '22px 0' }}>
+            <Section mb="100px">
+                <p style={{ marginBottom: '22px' }}>
                     현재 가장 많이 분석되고 있어요
                 </p>
-                <Filter />
+                <FilterBox>
+                    {windowWidth <= 680 ? <FilterMobile /> : <Filter />}
+                </FilterBox>
             </Section>
         </>
     );
