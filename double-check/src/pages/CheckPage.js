@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import SearchPC from "../components/Search/SearchPC";
-import SearchTab from "./../components/Search/SearchTab";
-import SearchPhone from "./../components/Search/SearchPhone";
+import CheckPC from "../components/Check/CheckPC";
+import CheckTab from "../components/Check/CheckTab";
+import CheckPhone from "../components/Check/CheckPhone";
 
-function SearchPage() {
+function CheckPage() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -24,14 +24,14 @@ function SearchPage() {
   return (
     <>
       {windowWidth <= 600 ? (
-        <SearchPhone />
+        <CheckPhone />
       ) : windowWidth <= 1320 ? (
-        <SearchTab />
+        <CheckTab />
       ) : (
-        <SearchPC />
+        <CheckPC />
       )}
     </>
   );
 }
 
-export default SearchPage;
+export default CheckPage;
