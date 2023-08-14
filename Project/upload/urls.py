@@ -27,6 +27,7 @@ urlpatterns = [
     path("feedback/", include("feedback.urls")),
     path("verify/", include("Verify.urls")),
     path("trend/", include("trend.urls")),
+    path('search/', include("search.urls"))
     
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
