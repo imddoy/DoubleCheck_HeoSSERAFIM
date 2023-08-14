@@ -61,11 +61,10 @@ export const Pdiv = styled.div`
   align-items: center;
 `;
 
-export const RImg = styled.div`
+export const RImg = styled.img`
   width: 73px;
   height: 73px;
   border-radius: 73px;
-  background: #d9d9d9;
   align-self: center;
   margin: 0 auto;
   margin-bottom: 8px;
@@ -130,11 +129,11 @@ export const ListSmall = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 14px;
-  justify-content: space-between;
+  justify-content: ${({ isEmpty }) => (isEmpty ? "center" : "space-between")};
 
   @media screen and (min-width: 661px) {
     ${({ isEmpty, itemCount }) =>
-      (isEmpty || itemCount === 2 || itemCount === 5) &&
+      (itemCount === 2 || itemCount === 5) &&
       `
       justify-content: flex-start;
     `}
