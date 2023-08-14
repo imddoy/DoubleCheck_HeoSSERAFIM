@@ -73,6 +73,7 @@ const STitle = styled.div`
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+  margin-top: 58px;
 `;
 
 const FBtn_down = styled.img`

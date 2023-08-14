@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import thumnail from "../../img/thumnail1.png";
 import progress from "../../img/ProgressBar.png";
+import ProgressBar from "./ProgressBar";
+import axios from "axios";
 
 const Div = styled.div`
   width: 100%;
@@ -9,11 +10,14 @@ const Div = styled.div`
 
 const DTitle = styled.div`
   color: #000;
-  /* SubTitle */
   font-size: 20px;
   font-style: normal;
   font-weight: 700;
-  line-height: normal;
+
+  @media screen and (max-width: 400px) {
+    white-space: pre-line; // 줄바꿈을 적용하기 위한 속성
+    line-height: normal;
+  }
 `;
 
 const DBox = styled.div`
@@ -102,35 +106,50 @@ const TextDetail = styled.div`
   margin-bottom: 50px;
 `;
 
-const PBox = styled.div``;
+const PBox = styled.div`
+  @media screen and (max-width: 400px) {
+    width: 100%;
+  }
+`;
 
 const ResultDetail = () => {
+  const [data, setData] = useState({});
+  const [completed, setCompleted] = useState(0);
+
+  useEffect(() => {
+    setInterval(() => setCompleted(Math.floor(Math.random() * 100) + 1), 2000);
+  }, []);
+
+  useEffect(() => {
+    // Fetch the data from the API when the component mounts
+    axios
+      .get("http://127.0.0.1:8000/verify/")
+      .then((response) => {
+        setData(response.data[0]); // Assuming the latest data is the first in the list
+        console.log(response.data[0]);
+      })
+      .catch((error) => {
+        console.error("Error fetching the data", error);
+      });
+  }, []);
+
   return (
     <Div>
       <DBox>
-        <DTitle>허위 사실 여부를 판단하였습니다</DTitle>
+        <DTitle>{`허위 사실 여부를\n판단하였습니다`}</DTitle>
         <PBox>
           <PTitle>
-            70% <Ptext>허위 뉴스</Ptext>
+            {data.judge === "Real News" ? 100 - data.percent : data.percent}%{" "}
+            <Ptext>허위 뉴스</Ptext>
           </PTitle>
-          <DImage src={progress} />
+          {/* <DImage src={progress} /> */}
+          <ProgressBar bgcolor={"#3a42bf"} completed={data.percent} />
         </PBox>
       </DBox>
-      <ThImage src={thumnail} />
-      <ThTitle>NewJeans(뉴진스) ‘ETA’ Official MV -YouTube</ThTitle>
-      <TextTitle>텍스트 분석:</TextTitle>
-      <TextDetail>
-        낭비하지 마 네 시간은 은행서둘러서 정리해 걔는 real bad받아주면 안돼No,
-        you better trust me답답해서 그래저번에도 봤지만 너 없을 때걘 여기저기에
-        눈빛을 뿌리네아주 눈부시게Honestly 우리 사이에He's been totally lyin',
-        yeah 내 생일 파티에 너만 못 온 그날혜진이가 엄청 혼났던 그날지원이가
-        여친이랑 헤어진 그날걔는 언제나 네가 없이 그날너무 멋있는 옷을 입고
-        그날Heard him say We can go wherever you likeBaby, say the words and I'm
-        downAll I need is you on my sideWe can go whenever you likeNow, where
-        are you? (Mm-mhm)What's your ETA? What's your ETA? (Mm-mhm-mm)What's
-        your ETA? What's your ETA? (Mm-mhm)*What's your ETA? What's your
-        ETA?**I'll be there right now, lose that boy on her arm*
-      </TextDetail>
+      <ThImage src={data.thumbnail_url} />
+      <ThTitle>{data.title}</ThTitle>
+      {/* <TextTitle>텍스트 분석:</TextTitle>
+      <TextDetail>{data.srt}</TextDetail> */}
     </Div>
   );
 };

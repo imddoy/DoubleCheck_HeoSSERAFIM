@@ -57,7 +57,13 @@ function MainPC() {
       })
       .then((response) => {
         console.log(response.data);
-        navigate("/truthcheck"); // 여기에 이동 코드 추가
+        // 서버 응답으로 제목과 썸네일 URL을 받아와서 state로 전달
+        navigate("/truthcheck", {
+          state: {
+            title: response.data.title,
+            thumbnailURL: response.data.thumbnail_url,
+          },
+        });
       })
       .catch((error) => {
         console.log("작성 실패");
