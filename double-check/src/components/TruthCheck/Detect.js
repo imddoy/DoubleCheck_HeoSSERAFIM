@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { HashLoader } from "react-spinners";
 import thumnail from "../../img/thumnail1.png";
+import { useLocation } from "react-router-dom";
 
 const Div = styled.div`
   width: 100%;
@@ -52,6 +53,10 @@ const ThTitle = styled.div`
 `;
 
 const Detect = () => {
+  const location = useLocation();
+  const title = location.state.title;
+  const thumbnailURL = location.state.thumbnailURL;
+
   return (
     <Div>
       <DBox>
@@ -63,8 +68,8 @@ const Detect = () => {
           <HashLoader color="#3A42BF" />
         </SpinnerContainer>
       </DBox>
-      <ThImage src={thumnail} />
-      <ThTitle>NewJeans(뉴진스) ‘ETA’ Official MV -YouTube</ThTitle>
+      <ThImage src={thumbnailURL} />
+      <ThTitle>{title}</ThTitle>
     </Div>
   );
 };
