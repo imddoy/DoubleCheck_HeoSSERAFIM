@@ -62,15 +62,21 @@ function Nav() {
         <img src="./x.png" />
       </ExitButton>
       <Linkblock>
-        <Link to="/">
+        <Link to="/check">
           <List>
             <p>허위 사실 판단기</p>
             <img src="./rightarrow.png"></img>
           </List>
         </Link>
-        <Link to="/trend">
+        <Link to="/search">
           <List>
             <p>키워드 검색</p>
+            <img src="./rightarrow.png"></img>
+          </List>
+        </Link>
+        <Link to="/trend">
+          <List>
+            <p>현재 트렌드</p>
             <img src="./rightarrow.png"></img>
           </List>
         </Link>

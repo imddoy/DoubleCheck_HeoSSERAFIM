@@ -46,11 +46,12 @@ function FakeForm() {
             <FormDiv>{data.url}</FormDiv>
             <Flabel>내용</Flabel>
             <FormDiv>{data.content}</FormDiv>
-            <Img
-                src={`http://localhost:8000${data.head_image}`}
-                alt="Report Image"
-            ></Img>
-
+            {data.head_image ? (
+                <Img
+                    src={`http://localhost:8000${data.head_image}`}
+                    alt="Description"
+                />
+            ) : null}
             <BtnDiv>
                 <Flabel>{formatDateString(data.created_at)}</Flabel>
                 <Btn color="#525252" onClick={cancle}>

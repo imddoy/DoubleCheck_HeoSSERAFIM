@@ -88,7 +88,7 @@ function ReportList() {
         </Link>
 
         <LBox>
-          <ListSmall isEmpty={report.length === 0}>
+          <ListSmall isEmpty={report.length === 0} itemCount={report.length}>
             {report.length === 0 ? (
               <NoReport>등록된 신고글이 없습니다</NoReport>
             ) : (

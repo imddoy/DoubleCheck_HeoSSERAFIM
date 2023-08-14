@@ -97,7 +97,7 @@ export const LBtn = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--ain, #3a42bf);
+  color: #3a42bf;
   text-align: center;
   font-size: 20px;
   font-style: normal;
@@ -130,7 +130,15 @@ export const ListSmall = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 14px;
-  justify-content: ${({ isEmpty }) => (isEmpty ? "center" : "space-between")};
+  justify-content: space-between;
+
+  @media screen and (min-width: 661px) {
+    ${({ isEmpty, itemCount }) =>
+      (isEmpty || itemCount === 2 || itemCount === 5) &&
+      `
+      justify-content: flex-start;
+    `}
+  }
 `;
 
 export const SBox = styled.div`
