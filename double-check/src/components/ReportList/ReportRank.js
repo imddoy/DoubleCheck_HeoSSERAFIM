@@ -31,7 +31,7 @@ function ReportRank() {
       <Rdiv>
         {topReports.map((report, index) => (
           <Pdiv key={index}>
-            <RImg src={report.profile_pic}></RImg>
+            <RImg src={report.profile_picture}></RImg>
             <RName>{report.profile_name}</RName>
             <Ranking>
               {index === 0 ? "1st" : index === 1 ? "2nd" : "3rd"}

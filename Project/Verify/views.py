@@ -1,3 +1,4 @@
+
 from django.shortcuts import render
 from .serializers import YouTubeURLSerializer
 
@@ -20,26 +21,28 @@ from .utils import tokenizer_porter
 
 
 def text_and_translate(user_title, user_text):
+
     news_text = user_title + " " + user_text
 
     translator = Translator()
 
-    if detect(news_text) != "en":
-        news_text = translator.translate(news_text, dest="en").text
+    if detect(news_text) != 'en':
+            news_text = translator.translate(news_text, dest='en').text
     # print(news_text)
     return news_text
 
 
 def predict_fake_or_real(news_text):
-    # clf 객체 로딩
-    with open("text_classifier_model.pkl", "rb") as f:
-        clf = pickle.load(f)
-    with open("tfidf_vectorizer.pkl", "rb") as tfidf_file:
-        tfidf = pickle.load(tfidf_file)
 
+    # clf 객체 로딩
+    with open('text_classifier_model.pkl', 'rb') as f:
+        clf = pickle.load(f)
+    with open('tfidf_vectorizer.pkl', 'rb') as tfidf_file:
+        tfidf = pickle.load(tfidf_file)
+        
     # 전처리 단계
     news_text = preprocessor(news_text)
-    news_text = " ".join(tokenizer_porter(news_text))
+    news_text = ' '.join(tokenizer_porter(news_text))
 
     # TF-IDF 변환
     news_vector = tfidf.transform([news_text])
@@ -52,17 +55,18 @@ def predict_fake_or_real(news_text):
         return "Fake News", prediction_proba[0][0] * 100  # 가짜 뉴스일 확률
     else:
         return "Real News", prediction_proba[0][1] * 100  # 진짜 뉴스일 확률
-
+    
 
 def explain_prediction(news_text, result):
+
     # clf 객체 로딩
-    with open("text_classifier_model.pkl", "rb") as f:
+    with open('text_classifier_model.pkl', 'rb') as f:
         clf = pickle.load(f)
-    with open("tfidf_vectorizer.pkl", "rb") as tfidf_file:
+    with open('tfidf_vectorizer.pkl', 'rb') as tfidf_file:
         tfidf = pickle.load(tfidf_file)
 
     news_text = preprocessor(news_text)
-    news_text = " ".join(tokenizer_porter(news_text))
+    news_text = ' '.join(tokenizer_porter(news_text))
     news_vector = tfidf.transform([news_text])
 
     feature_names = tfidf.get_feature_names_out()
@@ -82,26 +86,23 @@ def explain_prediction(news_text, result):
         return [word for word in words_importance if word[1] > 0][:10]
 
 
+
 @api_view(["POST"])
 def youtube_description(request):
     serializer = YouTubeURLSerializer(data=request.data)
 
+    
     if serializer.is_valid():
         user_input = serializer.validated_data["youtube_url"]
-        pattern = (
-            r"(?:v=|/v/|/embed/|/youtu\.be/|/[\w\-]+\?v=|/video/|watch\?)([^#&?/]*).*"
-        )
-
+        pattern = r"(?:v=|/v/|/embed/|/youtu\.be/|/[\w\-]+\?v=|/video/)([^#&?]*).*"
         match = re.search(pattern, user_input)
-
+        
         if match and len(match.group(1)) == 11:
             VIDEO_ID = match.group(1)
-            API_KEY = "Your_Youtube_API_Key"  # 실제 API 키로 변경
+            API_KEY = "AIzaSyCMHMYV3ug24VPi_vksSkNKWkW0B0Fv3Gc"
 
             try:
-                srt = YouTubeTranscriptApi.get_transcript(
-                    VIDEO_ID, languages=["ko", "en"]
-                )
+                srt = YouTubeTranscriptApi.get_transcript(VIDEO_ID, languages=["ko", "en"])
                 all_text = " ".join([entry["text"] for entry in srt])
 
                 detected_language = detect(all_text)
@@ -121,30 +122,27 @@ def youtube_description(request):
             thumbnail_url = data["items"][0]["snippet"]["thumbnails"]["high"]["url"]
 
             user_title = title
-            user_text = all_text
+            user_text = all_text  
             news_text = text_and_translate(user_title, user_text)
 
             result, probability = predict_fake_or_real(news_text)
-            explanation = explain_prediction(news_text, result)
+            explanation = explain_prediction(news_text, result) 
+
 
             print("This news is:", result)
             print(f"Probability: {probability:.2f}%")
             print("Top 10 influencing words:")
             for word, importance in explanation:
-                print(
-                    f"{word}: {'supports Fake' if importance < 0 else 'supports Real'} with weight {abs(importance)}"
-                )
+                print(f"{word}: {'supports Fake' if importance < 0 else 'supports Real'} with weight {abs(importance)}")
+
+
 
             hastag_regex = "#([0-9a-zA-Z가-힣]*)"
             p = re.compile(hastag_regex)
             hashtags = " ".join(p.findall(description))
 
             youtube_data = YouTubeData(
-                url=user_input,
-                title=title,
-                thumbnail_url=thumbnail_url,
-                judge=result,
-                percent=probability,
+                url=user_input, title=title, thumbnail_url=thumbnail_url, judge=result, percent= probability
             )
 
             youtube_data.save()
@@ -152,14 +150,6 @@ def youtube_description(request):
             for hashtag in p.findall(description):
                 Hashtag.objects.create(youtube_data=youtube_data, tag=hashtag)
 
-            return Response(
-                {
-                    "title": title,
-                    "thumbnail_url": thumbnail_url,  # thumbnail_url 추가
-                    "srt": all_text,
-                    "judge": result,
-                    "percent": int(probability),
-                }
-            )
+            return Response({"title": title, "srt": all_text, "judge": result, "percent" : int(probability)})
 
         return Response(serializer.errors, status=400)

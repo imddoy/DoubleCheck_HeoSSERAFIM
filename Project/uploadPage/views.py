@@ -59,13 +59,6 @@ def popular_targets(request):
             
             # Find the relevant information about the YouTube profile
             profile_name = soup.find('title').get_text().replace(' - YouTube', '') if soup.find('title') else None
-<<<<<<< HEAD
-            # You can further extract other information like profile picture, description, etc.
-
-            # Extract the profile picture URL
-            profile_pic = soup.find('img', {'id': 'img'})  # This might change depending on YouTube's markup
-            profile_pic_url = profile_pic['src'] if profile_pic else None
-=======
             
             # Find the profile picture URL
             profile_picture = None
@@ -74,18 +67,12 @@ def popular_targets(request):
                 profile_picture = og_image.get('content')
             
             # You can further extract other information like description, etc.
->>>>>>> 0608efde3b93b3e32298f572079fb495b8beacd8
             
             youtube_profiles.append({
                 'target': target,
                 'profile_name': profile_name,
-<<<<<<< HEAD
-                'profile_url': youtube_url,
-                'profile_pic': profile_pic_url
-=======
                 'profile_picture': profile_picture,
                 'profile_url': youtube_url
->>>>>>> 0608efde3b93b3e32298f572079fb495b8beacd8
             })
 
     return Response(youtube_profiles, status=status.HTTP_200_OK)
