@@ -4,6 +4,7 @@ import Draggable from "react-draggable";
 import down from "../../img/icon_down_.svg";
 import up from "../../img/icon_up_.svg";
 import sendBtn from "../../img/Vector.png";
+import axios from "axios";
 
 const Div = styled.div`
   width: 100%;
@@ -72,6 +73,7 @@ const STitle = styled.div`
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+  margin-top: 58px;
 `;
 
 const FBtn_down = styled.img`
@@ -92,6 +94,7 @@ const SatisfactionSlider = () => {
   const [feedbackText, setFeedbackText] = useState("");
   const sliderRef = useRef(null);
   const [sliderWidth, setSliderWidth] = useState(0);
+  const [isDragDisabled, setIsDragDisabled] = useState(false);
 
   useEffect(() => {
     if (sliderRef.current) {
@@ -111,11 +114,31 @@ const SatisfactionSlider = () => {
       console.log("만족");
       console.log(data.x);
     }
+
+    // 슬라이더 움직임 비활성화
+    setIsDragDisabled(true);
   };
 
-  const handleFeedbackSubmit = () => {
+  const handleFeedbackSubmit = async () => {
+    // 피드백 텍스트가 비어있는지 확인
+    if (!feedbackText.trim()) {
+      alert("피드백을 작성해주세요");
+      return;
+    }
+
     console.log(feedbackText);
-    setFeedbackSubmitted(true);
+
+    try {
+      const response = await axios.post("http://127.0.0.1:8000/feedback/", {
+        feedback: feedbackText,
+      });
+
+      console.log(response.data);
+
+      setFeedbackSubmitted(true);
+    } catch (error) {
+      console.error("Error sending feedback:", error);
+    }
   };
 
   return (
@@ -123,7 +146,12 @@ const SatisfactionSlider = () => {
       <STitle>판단 결과가 만족스러우신가요?</STitle>
       <SliderContainer ref={sliderRef}>
         <FBtn_down src={down} />
-        <Draggable axis="x" bounds="parent" onStop={handleDrag}>
+        <Draggable
+          axis="x"
+          bounds="parent"
+          onStop={handleDrag}
+          disabled={isDragDisabled}
+        >
           <DraggableHandle />
         </Draggable>
         <FBtn_up src={up} />

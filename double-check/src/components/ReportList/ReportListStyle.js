@@ -61,11 +61,10 @@ export const Pdiv = styled.div`
   align-items: center;
 `;
 
-export const RImg = styled.div`
+export const RImg = styled.img`
   width: 73px;
   height: 73px;
   border-radius: 73px;
-  background: #d9d9d9;
   align-self: center;
   margin: 0 auto;
   margin-bottom: 8px;
@@ -97,7 +96,7 @@ export const LBtn = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--ain, #3a42bf);
+  color: #3a42bf;
   text-align: center;
   font-size: 20px;
   font-style: normal;
@@ -129,8 +128,16 @@ export const ListSmall = styled.div`
   height: 290px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
   gap: 14px;
+  justify-content: ${({ isEmpty }) => (isEmpty ? "center" : "space-between")};
+
+  @media screen and (min-width: 661px) {
+    ${({ isEmpty, itemCount }) =>
+      (itemCount === 2 || itemCount === 5) &&
+      `
+      justify-content: flex-start;
+    `}
+  }
 `;
 
 export const SBox = styled.div`
