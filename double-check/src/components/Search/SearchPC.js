@@ -2,6 +2,8 @@ import { React, useState, useEffect } from "react";
 import { styled, css } from "styled-components";
 import axios from "axios";
 import List from "./List";
+import search from "../../img/search.png";
+import searchW from "../../img/searchW.png";
 
 const Main = styled.div`
   padding: 5em 18em;
@@ -28,6 +30,9 @@ const InputBox = styled.div`
   border: 1px solid var(--ain, #3a42bf);
   margin: 22px 0;
   color: var(--ain, #3a42bf);
+  ::placeholder {
+    color: #3a42bf;
+  }
 
   font-family: Pretendard;
   font-size: 14px;
@@ -75,17 +80,16 @@ const Img = styled.img`
 
 function SearchPC() {
   const [isClicked, setIsClicked] = useState(false);
-  const [imgSrc, setImgSrc] = useState("./search.png");
+  const [imgSrc, setImgSrc] = useState(search);
   const [searchQuery, setSearchQuery] = useState("");
 
   function handleClick() {
     setIsClicked(true);
-    setImgSrc("./searchW.png");
+    setImgSrc(searchW);
   }
 
   function handleImageClick() {
     if (searchQuery) {
-      setImgSrc("./searchW.png");
       window.location.href = `/search/${searchQuery}`;
     }
   }

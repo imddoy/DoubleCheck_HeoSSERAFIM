@@ -71,6 +71,7 @@ function List() {
 
   return (
     <>
+      <Title>{keyword}에 관한 영상 입니다.</Title>
       <div>{urlListItems}</div>
     </>
   );

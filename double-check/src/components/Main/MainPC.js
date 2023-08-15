@@ -20,6 +20,7 @@ function MainPC() {
   const [isClicked, setIsClicked] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     // 창 크기 변경 이벤트 핸들러
@@ -74,6 +75,12 @@ function MainPC() {
         }
       });
   };
+  function handleImageClick() {
+    if (searchQuery) {
+      console.log(searchQuery);
+      window.location.href = `/search/${searchQuery}`;
+    }
+  }
 
   return (
     <>
@@ -92,12 +99,14 @@ function MainPC() {
       </Section>
       <Section>
         <p>이미 검증된 허위 뉴스를 찾아 보세요</p>
-        <Link to="/search">
-          <Input2>
-            <p>찾고자 하는 이슈의 키워드를 입력하세요</p>
-            <img src="./search.png" />
-          </Input2>
-        </Link>
+        <InputBox isClicked={isClicked}>
+          <Input
+            placeholder="찾고자 하는 이슈의 키워드를 입력하세요"
+            onClick={handleClick}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          ></Input>
+          <Img src={search} onClick={handleImageClick} />
+        </InputBox>
       </Section>
       <Section mb="100px">
         <p style={{ marginBottom: "22px" }}>현재 가장 많이 분석되고 있어요</p>
