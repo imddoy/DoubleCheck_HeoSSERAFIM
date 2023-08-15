@@ -29,7 +29,10 @@ function List() {
             <ListImg src={item.thumbnail_url}></ListImg>
             <TDiv>
               <Title>{item.title}</Title>
-              <Percent>{item.percent}%</Percent>
+              <Percent>
+                {item.judge === "Real News" ? 100 - item.percent : item.percent}
+                %
+              </Percent>
             </TDiv>
           </Link>
         );

@@ -6,58 +6,39 @@ import { useParams, Link } from "react-router-dom";
 function List() {
   const { id } = useParams();
   const [datas, setDatas] = useState([]);
-  const [verifys, setVerifys] = useState([]);
-  const [index, setIndex] = useState([]);
-  const [percent, setPercent] = useState([]);
+
   useEffect(() => {
     getDatas();
-    getVerify();
   }, [id]);
 
   useEffect(() => {
-    if (datas.video_data && verifys.length > 0) {
-      const newVerifyInfo = datas.video_data.map((item) => {
-        const verify = verifys.find((verify) => verify.url === item.video_url);
-        if (verify) {
-          return {
-            id: verify.id,
-            percent: verify.percent,
-          };
+    if (datas.video_data) {
+      const uniqueTitles = new Set(); // 중복된 title을 확인하기 위한 Set 생성
+      const listItems = datas.video_data.map((item) => {
+        if (!uniqueTitles.has(item.title)) {
+          uniqueTitles.add(item.title);
+          console.log(uniqueTitles);
+          return (
+            <Link to={`/truthcheck/${item.id}`}>
+              <ListImg src={item.thumbnail_url}></ListImg>
+              <TDiv>
+                <Title>{item.title}</Title>
+                <Percent>
+                  {item.judge === "Real News"
+                    ? 100 - item.percent
+                    : item.percent}
+                  %
+                </Percent>
+              </TDiv>
+            </Link>
+          );
         }
         return null;
       });
 
-      if (datas.video_data) {
-        const uniqueTitles = new Set(); // 중복된 title을 확인하기 위한 Set 생성
-        const listItems = datas.video_data.map((item) => {
-          if (!uniqueTitles.has(item.title)) {
-            uniqueTitles.add(item.title);
-            console.log(uniqueTitles);
-            verifys.map((verify) => {
-              if (verify.url === item.video_url) {
-                setIndex(verify.id);
-                setPercent(verify.percent);
-                return null;
-              }
-              return null;
-            });
-            return (
-              <Link to={`/truthcheck/${index}`}>
-                <ListImg src={item.thumbnail_url}></ListImg>
-                <TDiv>
-                  <Title>{item.title}</Title>
-                  <Percent>{percent}%</Percent>
-                </TDiv>
-              </Link>
-            );
-          }
-          return null;
-        });
-
-        setUrlListItems(listItems);
-      }
+      setUrlListItems(listItems);
     }
-  }, [datas, verifys]);
+  }, [datas]);
 
   const getDatas = async () => {
     try {
@@ -65,15 +46,6 @@ function List() {
       setDatas(response.data);
     } catch (error) {
       console.log("리스트 실패", error.message);
-    }
-  };
-
-  const getVerify = async () => {
-    try {
-      const response = await axios.get("http://127.0.0.1:8000/search/");
-      setVerifys(response.data);
-    } catch (error) {
-      console.log("verify 실패", error.message);
     }
   };
 
