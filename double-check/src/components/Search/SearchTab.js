@@ -1,6 +1,8 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import { styled, css } from "styled-components";
 import { Link } from "react-router-dom";
+import List from "./List";
+
 const Main = styled.div`
   padding: 1em 6em;
   display: flex;
@@ -74,7 +76,6 @@ function SearchTab() {
   const [isClicked, setIsClicked] = useState(false);
   const [imgSrc, setImgSrc] = useState("./search.png");
   const [searchQuery, setSearchQuery] = useState("");
-
   function handleClick() {
     setIsClicked(true);
     setImgSrc("./searchW.png");
@@ -82,8 +83,8 @@ function SearchTab() {
 
   function handleImageClick() {
     if (searchQuery) {
-      // 검색 기능 실행 코드를 여기에 추가
-      alert(`검색: ${searchQuery}`);
+      console.log(searchQuery);
+      window.location.href = `/search/${searchQuery}`;
     }
   }
 
@@ -100,6 +101,7 @@ function SearchTab() {
           <Img src={imgSrc} onClick={handleImageClick} />
         </InputBox>
       </Section>
+      <List />
     </Main>
   );
 }
