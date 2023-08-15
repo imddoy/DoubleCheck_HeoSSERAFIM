@@ -1,6 +1,9 @@
 import { React, useState } from "react";
 import { styled, css } from "styled-components";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import search from "../../img/search.png";
+import searchW from "../../img/searchW.png";
 
 const Main = styled.div`
   padding: 5em 18em;
@@ -27,6 +30,9 @@ const InputBox = styled.div`
   border: 1px solid var(--ain, #3a42bf);
   margin: 22px 0;
   color: var(--ain, #3a42bf);
+  ::placeholder {
+    color: #3a42bf;
+  }
 
   font-family: Pretendard;
   font-size: 14px;
@@ -72,14 +78,15 @@ const Img = styled.img`
   cursor: pointer; /* 이미지에 마우스 포인터를 변경해 클릭 가능한 것처럼 보이게 함 */
 `;
 
-function SearchPC() {
+function CheckPC() {
   const [urlData, setUrlData] = useState("");
   const [isClicked, setIsClicked] = useState(false);
-  const [imgSrc, setImgSrc] = useState("./search.png");
+  const [imgSrc, setImgSrc] = useState(search);
+  const navigate = useNavigate();
 
   function handleClick() {
     setIsClicked(true);
-    setImgSrc("./searchW.png");
+    setImgSrc(searchW);
   }
 
   const handleUrl = (e) => {
@@ -99,6 +106,12 @@ function SearchPC() {
       })
       .then((response) => {
         console.log(response.data);
+        navigate("/truthcheck", {
+          state: {
+            title: response.data.title,
+            thumbnailURL: response.data.thumbnail_url,
+          },
+        });
       })
       .catch((error) => {
         console.log("작성 실패");
@@ -127,4 +140,4 @@ function SearchPC() {
   );
 }
 
-export default SearchPC;
+export default CheckPC;

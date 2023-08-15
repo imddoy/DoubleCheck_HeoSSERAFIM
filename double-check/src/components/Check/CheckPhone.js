@@ -1,6 +1,9 @@
 import { React, useState } from "react";
 import { styled, css } from "styled-components";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import search from "../../img/search.png";
+import searchW from "../../img/searchW.png";
 
 const Main = styled.div`
   padding: 1em 2em;
@@ -26,6 +29,9 @@ const InputBox = styled.div`
   border-radius: 10px;
   border: 1px solid var(--ain, #3a42bf);
   margin: 22px 0;
+  ::placeholder {
+    color: #3a42bf;
+  }
 
   display: flex;
   align-items: center;
@@ -68,11 +74,12 @@ const Img = styled.img`
 function SearchPhone() {
   const [urlData, setUrlData] = useState("");
   const [isClicked, setIsClicked] = useState(false);
-  const [imgSrc, setImgSrc] = useState("./search.png");
+  const [imgSrc, setImgSrc] = useState(search);
+  const navigate = useNavigate();
 
   function handleClick() {
     setIsClicked(true);
-    setImgSrc("./searchW.png");
+    setImgSrc(searchW);
   }
 
   const handleUrl = (e) => {
@@ -92,6 +99,12 @@ function SearchPhone() {
       })
       .then((response) => {
         console.log(response.data);
+        navigate("/truthcheck", {
+          state: {
+            title: response.data.title,
+            thumbnailURL: response.data.thumbnail_url,
+          },
+        });
       })
       .catch((error) => {
         console.log("작성 실패");
