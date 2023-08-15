@@ -15,8 +15,8 @@ from googletrans import Translator
 from langdetect import detect
 import pickle
 from sklearn.feature_extraction.text import TfidfVectorizer
-from .utils import preprocessor
-from .utils import tokenizer_porter
+from .utils import process_and_check_script
+from .utils import get_tfidf_vectorizer
 
 
 def text_and_translate(user_title, user_text):
@@ -24,9 +24,9 @@ def text_and_translate(user_title, user_text):
 
     translator = Translator()
 
-    if detect(news_text) != "en":
-        news_text = translator.translate(news_text, dest="en").text
-    # print(news_text)
+    if detect(news_text) != 'en':
+            news_text = translator.translate(news_text, dest='en').text
+    
     return news_text
 
 
@@ -38,9 +38,7 @@ def predict_fake_or_real(news_text):
         tfidf = pickle.load(tfidf_file)
 
     # 전처리 단계
-    news_text = preprocessor(news_text)
-    news_text = " ".join(tokenizer_porter(news_text))
-
+    news_text = process_and_check_script(news_text)
     # TF-IDF 변환
     news_vector = tfidf.transform([news_text])
 
@@ -61,10 +59,10 @@ def explain_prediction(news_text, result):
     with open("tfidf_vectorizer.pkl", "rb") as tfidf_file:
         tfidf = pickle.load(tfidf_file)
 
-    news_text = preprocessor(news_text)
-    news_text = " ".join(tokenizer_porter(news_text))
+    news_text = process_and_check_script(news_text)
     news_vector = tfidf.transform([news_text])
 
+    print("!!!!" + news_text)
     feature_names = tfidf.get_feature_names_out()
     coefficients = clf.coef_[0]
     words_importance = []
@@ -121,18 +119,19 @@ def youtube_description(request):
 
                 user_title = title
                 user_text = all_text
+                
+                # Apply preprocessing for YouTube data
                 news_text = text_and_translate(user_title, user_text)
 
-                result, probability = predict_fake_or_real(news_text)
-                explanation = explain_prediction(news_text, result)
+                preprocessed_script = process_and_check_script(news_text)
+
+        
+
+                result, probability = predict_fake_or_real(preprocessed_script)
+                explanation = explain_prediction(preprocessed_script, result)
 
                 print("This news is:", result)
                 print(f"Probability: {probability:.2f}%")
-                print("Top 10 influencing words:")
-                for word, importance in explanation:
-                    print(
-                        f"{word}: {'supports Fake' if importance < 0 else 'supports Real'} with weight {abs(importance)}"
-                    )
 
                 hastag_regex = "#([0-9a-zA-Z가-힣]*)"
                 p = re.compile(hastag_regex)
