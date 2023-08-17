@@ -3,6 +3,9 @@ import { Gobtn, S4Div, S4Title } from './AboutStyle';
 import phone from '../../img/phone.svg';
 
 function Section4() {
+    const move = () => {
+        window.location.href = '/main';
+    };
     return (
         <S4Div>
             <S4Title>
@@ -11,7 +14,7 @@ function Section4() {
 
             <img src={phone} />
 
-            <Gobtn>지금 double check 하기</Gobtn>
+            <Gobtn onClick={move}>지금 double check 하기</Gobtn>
         </S4Div>
     );
 }
