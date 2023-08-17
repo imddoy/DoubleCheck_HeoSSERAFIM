@@ -47,16 +47,9 @@ const PTitle = styled.div`
   justify-content: flex-end;
   align-items: baseline;
   gap: 5px;
-  @media screen and (max-width: 1275px) {
-    margin-top: 22px;
-    margin-bottom: 7px;
-    justify-content: flex-start;
-  }
-  @media screen and (max-width: 440px) {
-    margin-top: 22px;
-    justify-content: flex-start;
-    margin-bottom: 7px;
-  }
+  margin-bottom: 7px;
+  margin-top: 22px;
+  justify-content: flex-start;
 `;
 
 const Ptext = styled.div`
