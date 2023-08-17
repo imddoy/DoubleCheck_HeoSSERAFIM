@@ -5,22 +5,70 @@ from .models import Post
 from .serializers import PostSerializer
 from django.db.models import Count
 from django.db.models.functions import Lower
-from bs4 import BeautifulSoup
+
 import requests
+from django.conf import settings
 
 @api_view(['GET', 'POST'])
 def post_list(request):
+    # GET 조회
     if request.method == 'GET':
+        # 내림차순 정렬
         posts = Post.objects.all().order_by('-id')
         serializer = PostSerializer(posts, many=True)
         return Response(serializer.data)
+
+    # POST 전송
     elif request.method == 'POST':
         serializer = PostSerializer(data=request.data)
 
+        # serializers 유효성 검사
         if serializer.is_valid():
-            serializer.save()
-            return Response({'message': 'Post created successfully'}, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    # Before saving, fetch the YouTube channel details
+            target_url = serializer.validated_data['target']
+            if '@' in target_url:
+                channel_name = target_url.split('@')[-1]
+
+                # Use the search API to get the channel ID based on the channel name
+                search_url = "https://www.googleapis.com/youtube/v3/search"
+                API_KEY = settings.YOUTUBE_API_KEY
+                params = {
+                    'part': 'snippet',
+                    'q': channel_name, # query the channel name
+                    'type': 'channel',
+                    'key': API_KEY
+                }
+                
+                response = requests.get(search_url, params=params)
+                data = response.json()
+
+                # Check if we got a valid response and retrieve channel ID
+                if 'items' in data and data['items']:
+                    channel_id = data['items'][0]['snippet']['channelId']
+                else:
+                    return Response({'error': 'Unable to fetch channel ID from YouTube API'}, status=status.HTTP_400_BAD_REQUEST)
+
+                # Now fetch the channel details using the obtained channel ID
+                details_url = "https://www.googleapis.com/youtube/v3/channels"
+                params = {
+                    'part': 'snippet',
+                    'id': channel_id,
+                    'key': API_KEY
+                }
+
+                response = requests.get(details_url, params=params)
+                data = response.json()
+
+                if 'items' in data and data['items']:
+                    snippet = data['items'][0]['snippet']
+                    # Update the validated data with fetched details
+                    serializer.validated_data['target_name'] = snippet['title']
+                    serializer.validated_data['target_thumbnail'] = snippet['thumbnails']['default']['url']
+
+                serializer.save()
+                return Response({'message': 'Post created successfully'}, status=status.HTTP_201_CREATED)
+            else:
+                return Response({'error': 'Invalid YouTube channel URL'}, status=status.HTTP_400_BAD_REQUEST)
 
 # @api_view(['GET', 'POST'])
 # def post_list(request):
@@ -41,41 +89,6 @@ def post_list(request):
 #             return Response({'message': 'Post created successfully'}, status=status.HTTP_201_CREATED)
 #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    
-@api_view(['GET'])
-def popular_targets(request):
-    popular_targets = Post.objects.annotate(lower_target=Lower('target')).values('lower_target').annotate(target_count=Count('lower_target')).order_by('-target_count')
-    
-    youtube_profiles = []
-
-    for item in popular_targets:
-        target = item['lower_target']
-        youtube_url = f'https://www.youtube.com/{target}'
-        
-        # Send a request to the YouTube URL and parse the page content
-        response = requests.get(youtube_url)
-        if response.status_code == 200:
-            soup = BeautifulSoup(response.content, 'html.parser')
-            
-            # Find the relevant information about the YouTube profile
-            profile_name = soup.find('title').get_text().replace(' - YouTube', '') if soup.find('title') else None
-            
-            # Find the profile picture URL
-            profile_picture = None
-            og_image = soup.find('meta', property='og:image')
-            if og_image:
-                profile_picture = og_image.get('content')
-            
-            # You can further extract other information like description, etc.
-            
-            youtube_profiles.append({
-                'target': target,
-                'profile_name': profile_name,
-                'profile_picture': profile_picture,
-                'profile_url': youtube_url
-            })
-
-    return Response(youtube_profiles, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 def search_view(request):

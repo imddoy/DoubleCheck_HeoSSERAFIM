@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .serializers import YouTubeURLSerializer
-
+from django.conf import settings
 
 # Create your views here.
 import re
@@ -93,7 +93,7 @@ def youtube_description(request):
 
             if match and len(match.group(1)) == 11:
                 VIDEO_ID = match.group(1)
-                API_KEY = "AIzaSyCMHMYV3ug24VPi_vksSkNKWkW0B0Fv3Gc"
+                API_KEY = settings.YOUTUBE_API_KEY
 
                 try:
                     srt = YouTubeTranscriptApi.get_transcript(
