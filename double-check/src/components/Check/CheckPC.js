@@ -1,19 +1,10 @@
 import { React, useState } from "react";
-import { styled, css } from "styled-components";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import search from "../../img/search.png";
 import searchW from "../../img/searchW.png";
-import {
-  Main,
-  Img,
-  Input,
-  Input2,
-  FilterBox,
-  InputBox,
-  ResponsiveImage,
-  Section,
-} from "./CheckStyle";
+import { Main, Img, Input, InputBox, Section } from "./CheckStyle";
+import List from "../Search/List";
 
 function CheckPC() {
   const [urlData, setUrlData] = useState("");
