@@ -16,41 +16,43 @@ function TruthCheckPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const jsonData = JSON.stringify({ youtube_url: youtubeUrl });
-        const response = await axios.post(
-          "http://127.0.0.1:8000/verify/",
-          jsonData,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
+    if (!id) {
+      const fetchData = async () => {
+        try {
+          const jsonData = JSON.stringify({ youtube_url: youtubeUrl });
+          const response = await axios.post(
+            "http://127.0.0.1:8000/verify/",
+            jsonData,
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          setResponse(response.data);
+        } catch (error) {
+          console.log("작성 실패");
+          console.log(error.message);
+          console.log(error);
+          if (error.response && error.response.data) {
+            console.log(error.response.data);
+            alert("영상 길이가 너무 깁니다");
+            navigate("/main");
+            return; // 이 부분 추가
           }
-        );
-        setResponse(response.data);
-      } catch (error) {
-        console.log("작성 실패");
-        console.log(error.message);
-        console.log(error);
-        if (error.response && error.response.data) {
-          console.log(error.response.data);
-          alert("영상 길이가 너무 깁니다");
-          navigate("/");
-          return; // 이 부분 추가
+          setError(error);
         }
-        setError(error);
-      }
-    };
+      };
 
-    fetchData();
+      fetchData();
 
-    const timer = setTimeout(() => {
-      setShowDetect(false);
-    }, 5000);
-    return () => {
-      clearTimeout(timer);
-    };
+      const timer = setTimeout(() => {
+        setShowDetect(false);
+      }, 5000);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
   }, []);
 
   useEffect(() => {
