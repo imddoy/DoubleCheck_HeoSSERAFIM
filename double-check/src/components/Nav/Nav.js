@@ -86,15 +86,16 @@ function Nav() {
             <img src="./rightarrow.png"></img>
           </List>
         </Link>
+        <Link to="/report">
+          <List>
+            <p>페이지 소개</p>
+            <img src="./rightarrow.png"></img>
+          </List>
+        </Link>
       </Linkblock>
       <Button>
         <Link to="/">홈화면으로 가기</Link>
       </Button>
-      <Footer>
-        <p>Facebook</p>
-        <p>Instagram</p>
-        <p>Twitter</p>
-      </Footer>
     </>
   );
 }
