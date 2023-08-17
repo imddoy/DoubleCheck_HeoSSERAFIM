@@ -1,11 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import { HashLoader } from "react-spinners";
-import thumnail from "../../img/thumnail1.png";
-import { useLocation } from "react-router-dom";
 
 const Div = styled.div`
   width: 100%;
+  margin-top: 35px;
 `;
 
 const DTitle = styled.div`
@@ -19,44 +18,17 @@ const DTitle = styled.div`
 
 const DBox = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
-  @media screen and (max-width: 440px) {
-    flex-direction: column;
-  }
 `;
 
 const SpinnerContainer = styled.div`
   display: flex;
-
-  @media (max-width: 440px) {
-    align-self: center;
-    margin: 64px 0px;
-  }
-`;
-
-const ThImage = styled.img`
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
-  margin-top: 24px;
-  margin-bottom: 16px;
-`;
-
-const ThTitle = styled.div`
-  color: #3a42bf;
-  font-size: 15px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 20px; /* 133.333% */
-  margin-bottom: 15px;
+  align-self: center;
+  margin: 128px 0px;
 `;
 
 const Detect = () => {
-  const location = useLocation();
-  const title = location.state.title;
-  const thumbnailURL = location.state.thumbnailURL;
-
   return (
     <Div>
       <DBox>
@@ -65,11 +37,9 @@ const Detect = () => {
           허위 사실 여부를 판단하고 있습니다...{" "}
         </DTitle>
         <SpinnerContainer>
-          <HashLoader color="#3A42BF" />
+          <HashLoader color="#3A42BF" size={90} />
         </SpinnerContainer>
       </DBox>
-      <ThImage src={thumbnailURL} />
-      <ThTitle>{title}</ThTitle>
     </Div>
   );
 };

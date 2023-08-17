@@ -135,7 +135,7 @@ const ResultDetail = () => {
       .get("http://127.0.0.1:8000/verify/")
       .then((response) => {
         setData(response.data[0]); // Assuming the latest data is the first in the list
-        console.log(response.data[0]);
+        console.log(response.data);
       })
       .catch((error) => {
         console.error("Error fetching the data", error);
@@ -163,7 +163,12 @@ const ResultDetail = () => {
               <Ptext>허위 뉴스</Ptext>
             </PTitle>
             {/* <DImage src={progress} /> */}
-            <ProgressBar bgcolor={"#3a42bf"} completed={data.percent} />
+            <ProgressBar
+              bgcolor={"#3a42bf"}
+              completed={
+                data.judge === "Real News" ? 100 - data.percent : data.percent
+              }
+            />
           </PBox>
         </DBox>
         <ThImage src={data.thumbnail_url} />

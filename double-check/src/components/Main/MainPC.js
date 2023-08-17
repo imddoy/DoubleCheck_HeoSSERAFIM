@@ -47,34 +47,11 @@ function MainPC() {
 
   const postUrl = (e) => {
     e.preventDefault();
-
-    const jsonData = JSON.stringify({ youtube_url: urlData });
-
-    axios
-      .post("http://127.0.0.1:8000/verify/", jsonData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then((response) => {
-        console.log(response.data);
-        // 서버 응답으로 제목과 썸네일 URL을 받아와서 state로 전달
-        navigate("/truthcheck", {
-          state: {
-            title: response.data.title,
-            thumbnailURL: response.data.thumbnail_url,
-          },
-        });
-      })
-      .catch((error) => {
-        console.log("작성 실패");
-        console.log(error.message);
-        console.log(error);
-        if (error.response && error.response.data) {
-          console.log(error.response.data);
-        }
-      });
+    navigate("/truthcheck", {
+      state: { youtube_url: urlData },
+    });
   };
+
   function handleImageClick() {
     if (searchQuery) {
       console.log(searchQuery);
