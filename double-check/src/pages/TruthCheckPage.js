@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Div } from "../components/TruthCheck/TruthCheckStyle";
 import Detect from "../components/TruthCheck/Detect";
 import Result from "../components/TruthCheck/Result";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function TruthCheckPage() {
@@ -13,6 +13,7 @@ function TruthCheckPage() {
   const { id } = useParams();
   const location = useLocation();
   const youtubeUrl = location.state?.youtube_url;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,8 +29,17 @@ function TruthCheckPage() {
           }
         );
         setResponse(response.data);
-      } catch (err) {
-        setError(err);
+      } catch (error) {
+        console.log("작성 실패");
+        console.log(error.message);
+        console.log(error);
+        if (error.response && error.response.data) {
+          console.log(error.response.data);
+          alert("영상 길이가 너무 깁니다");
+          navigate("/");
+          return; // 이 부분 추가
+        }
+        setError(error);
       }
     };
 
@@ -58,4 +68,5 @@ function TruthCheckPage() {
   }
   return <Div>{showDetect ? <Detect /> : <Result />}</Div>;
 }
+
 export default TruthCheckPage;
