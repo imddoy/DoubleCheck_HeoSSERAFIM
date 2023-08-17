@@ -122,8 +122,9 @@ const ResultDetail = () => {
 
   useEffect(() => {
     // Fetch the data from the API when the component mounts
-    getData();
-    if (id) {
+    if (!id) {
+      getData();
+    } else {
       getMatch();
     }
   }, []);
@@ -156,7 +157,7 @@ const ResultDetail = () => {
           <DTitle>{`허위 사실 여부를\n판단하였습니다`}</DTitle>
           <PBox>
             <PTitle>
-              {data.judge === "Real News" ? 100 - data.percent : data.percent}%{" "}
+              {data.judge === "Real News" ? 100 - data.percent : data.percent}%
               <Ptext>허위 뉴스</Ptext>
             </PTitle>
             {/* <DImage src={progress} /> */}
@@ -183,7 +184,9 @@ const ResultDetail = () => {
           <DTitle>{`해당 영상의\n판단 결과입니다`}</DTitle>
           <PBox>
             <PTitle>
-              {match.judge === "Real News" ? 100 - match.percent : data.percent}
+              {match.judge === "Real News"
+                ? 100 - match.percent
+                : match.percent}
               % <Ptext>허위 뉴스</Ptext>
             </PTitle>
             {/* <DImage src={progress} /> */}
