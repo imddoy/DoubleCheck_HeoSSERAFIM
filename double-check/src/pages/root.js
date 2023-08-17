@@ -4,25 +4,31 @@ import Nav from "./Nav";
 import Footer from "./Footer";
 import GlobalStyles from "../GlobalStyle";
 
-function root() {
+function Root() {
   return (
-    <div
-      style={{
-        display: "flex",
-        minHeight: "100vh",
-        flexDirection: "column",
-      }}
-    >
-      <div style={{ flex: "1" }}>
-        <GlobalStyles />
-        <Nav />
-        <Outlet
-          style={{ height: "auto", minHeight: "100%", paddingBottom: "218px" }}
-        />
+    <>
+      <div
+        style={{
+          display: "flex",
+          minHeight: "100vh",
+          flexDirection: "column",
+        }}
+      >
+        <div style={{ flex: "1" }}>
+          <GlobalStyles />
+          <Nav />
+          <Outlet
+            style={{
+              height: "auto",
+              minHeight: "100%",
+              paddingBottom: "218px",
+            }}
+          />
+        </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
+    </>
   );
 }
 
-export default root;
+export default Root;

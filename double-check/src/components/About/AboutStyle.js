@@ -106,7 +106,7 @@ export const S4Div = styled.div`
     justify-content: center;
     align-items: center;
     padding-top: 150px;
-    padding-bottom: 80px;
+    padding-bottom: 180px;
 `;
 
 export const S4Title = styled.div`
@@ -120,16 +120,16 @@ export const S4Title = styled.div`
 `;
 
 export const Gobtn = styled.button`
-    width: 383px;
-    height: 109px;
+    width: 280px;
+    height: 60px;
     border-radius: 112px;
     background-color: white;
 
     color: var(--black, #000);
     font-family: Pretendard;
-    font-size: 35px;
+    font-size: 25px;
     font-style: normal;
-    font-weight: 700;
+    font-weight: 400;
     line-height: normal;
     letter-spacing: -2.625px;
     margin-bottom: 50px;

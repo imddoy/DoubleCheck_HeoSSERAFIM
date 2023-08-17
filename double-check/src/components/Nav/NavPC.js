@@ -35,7 +35,7 @@ const Linkblock = styled.div`
 function NavPC() {
     return (
         <Navbar>
-            <Logo href="/">DOUBLE CHECK</Logo>
+            <Logo href="/main">DOUBLE CHECK</Logo>
             <Navblock>
                 <Linkblock>
                     <Link to="/check">허위 사실 판단기</Link>
