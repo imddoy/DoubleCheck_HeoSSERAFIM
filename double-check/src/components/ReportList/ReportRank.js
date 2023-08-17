@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import styled from "styled-components";
 import {
   Pdiv,
   Fdiv,
@@ -9,6 +10,14 @@ import {
   Ranking,
   TDiv,
 } from "./ReportListStyle";
+
+const NoReport = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 34px 0px;
+  font-size: 16px;
+`;
 
 function ReportRank() {
   const [topReports, setTopReports] = useState([]);
@@ -28,16 +37,20 @@ function ReportRank() {
   return (
     <>
       <Fdiv>많은 사용자들이 신고했어요</Fdiv>
-      <Rdiv>
-        {topReports.map((report, index) => (
-          <Pdiv key={index}>
-            <RImg src={report.profile_picture}></RImg>
-            <RName>{report.profile_name}</RName>
-            <Ranking>
-              {index === 0 ? "1st" : index === 1 ? "2nd" : "3rd"}
-            </Ranking>
-          </Pdiv>
-        ))}
+      <Rdiv hasReports={topReports.length > 0}>
+        {topReports.length > 0 ? (
+          topReports.map((report, index) => (
+            <Pdiv key={index}>
+              <RImg src={report.profile_picture}></RImg>
+              <RName>{report.profile_name}</RName>
+              <Ranking>
+                {index === 0 ? "1st" : index === 1 ? "2nd" : "3rd"}
+              </Ranking>
+            </Pdiv>
+          ))
+        ) : (
+          <NoReport>현재 신고된 채널이 없습니다</NoReport>
+        )}
       </Rdiv>
     </>
   );

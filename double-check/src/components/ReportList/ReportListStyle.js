@@ -51,10 +51,12 @@ export const Fdiv = styled.div`
 export const Rdiv = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: ${({ hasReports }) =>
+    hasReports ? "space-between" : "center"};
   width: 100%;
   margin-bottom: 50px;
 `;
+
 export const Pdiv = styled.div`
   display: flex;
   flex-direction: column;

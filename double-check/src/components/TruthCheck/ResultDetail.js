@@ -3,6 +3,8 @@ import styled from "styled-components";
 import progress from "../../img/ProgressBar.png";
 import ProgressBar from "./ProgressBar";
 import axios from "axios";
+import { useParams } from "react-router-dom";
+import { ListImg, ListImgBox } from "../Trends/TrendsStyle";
 
 const Div = styled.div`
   width: 100%;
@@ -42,18 +44,14 @@ const PTitle = styled.div`
   font-weight: 600;
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: baseline;
   gap: 5px;
-  @media screen and (max-width: 1275px) {
-    margin-top: 22px;
-    margin-bottom: 7px;
-    justify-content: flex-start;
-  }
-  @media screen and (max-width: 440px) {
-    margin-top: 22px;
-    justify-content: flex-start;
-    margin-bottom: 7px;
+  margin-bottom: 7px;
+  margin-top: 22px;
+
+  @media screen and (min-width: 1276px) {
+    justify-content: flex-end;
   }
 `;
 
@@ -113,8 +111,10 @@ const PBox = styled.div`
 `;
 
 const ResultDetail = () => {
+  const { id } = useParams();
   const [data, setData] = useState({});
   const [completed, setCompleted] = useState(0);
+  const [match, setMatch] = useState({});
 
   useEffect(() => {
     setInterval(() => setCompleted(Math.floor(Math.random() * 100) + 1), 2000);
@@ -122,36 +122,83 @@ const ResultDetail = () => {
 
   useEffect(() => {
     // Fetch the data from the API when the component mounts
-    axios
+    getData();
+    if (id) {
+      getMatch();
+    }
+  }, []);
+  const getData = async () => {
+    await axios
       .get("http://127.0.0.1:8000/verify/")
       .then((response) => {
         setData(response.data[0]); // Assuming the latest data is the first in the list
-        console.log(response.data[0]);
+        console.log(response.data);
       })
       .catch((error) => {
         console.error("Error fetching the data", error);
       });
-  }, []);
-
-  return (
-    <Div>
-      <DBox>
-        <DTitle>{`허위 사실 여부를\n판단하였습니다`}</DTitle>
-        <PBox>
-          <PTitle>
-            {data.judge === "Real News" ? 100 - data.percent : data.percent}%{" "}
-            <Ptext>허위 뉴스</Ptext>
-          </PTitle>
-          {/* <DImage src={progress} /> */}
-          <ProgressBar bgcolor={"#3a42bf"} completed={data.percent} />
-        </PBox>
-      </DBox>
-      <ThImage src={data.thumbnail_url} />
-      <ThTitle>{data.title}</ThTitle>
-      {/* <TextTitle>텍스트 분석:</TextTitle>
+  };
+  const getMatch = async () => {
+    await axios
+      .get(`http://127.0.0.1:8000/search/${id}`)
+      .then((response) => {
+        setMatch(response.data); // Assuming the latest data is the first in the list
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching the data", error);
+      });
+  };
+  if (!id) {
+    return (
+      <Div>
+        <DBox>
+          <DTitle>{`허위 사실 여부를\n판단하였습니다`}</DTitle>
+          <PBox>
+            <PTitle>
+              {data.judge === "Real News" ? 100 - data.percent : data.percent}%{" "}
+              <Ptext>허위 뉴스</Ptext>
+            </PTitle>
+            {/* <DImage src={progress} /> */}
+            <ProgressBar
+              bgcolor={"#3a42bf"}
+              completed={
+                data.judge === "Real News" ? 100 - data.percent : data.percent
+              }
+            />
+          </PBox>
+        </DBox>
+        <ListImgBox>
+          <ListImg src={data.thumbnail_url} />
+        </ListImgBox>
+        <ThTitle>{data.title}</ThTitle>
+        {/* <TextTitle>텍스트 분석:</TextTitle>
       <TextDetail>{data.srt}</TextDetail> */}
-    </Div>
-  );
+      </Div>
+    );
+  } else {
+    return (
+      <Div>
+        <DBox>
+          <DTitle>{`해당 영상의\n판단 결과입니다`}</DTitle>
+          <PBox>
+            <PTitle>
+              {match.judge === "Real News" ? 100 - match.percent : data.percent}
+              % <Ptext>허위 뉴스</Ptext>
+            </PTitle>
+            {/* <DImage src={progress} /> */}
+            <ProgressBar bgcolor={"#3a42bf"} completed={match.percent} />
+          </PBox>
+        </DBox>
+        <ListImgBox>
+          <ListImg src={match.thumbnail_url} />
+        </ListImgBox>
+        <ThTitle>{match.title}</ThTitle>
+        {/* <TextTitle>텍스트 분석:</TextTitle>
+      <TextDetail>{data.srt}</TextDetail> */}
+      </Div>
+    );
+  }
 };
 
 export default ResultDetail;

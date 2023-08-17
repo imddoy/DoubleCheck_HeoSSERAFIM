@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import CheckPC from "../components/Check/CheckPC";
-import CheckTab from "../components/Check/CheckTab";
-import CheckPhone from "../components/Check/CheckPhone";
 
 function CheckPage() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -21,17 +19,7 @@ function CheckPage() {
     };
   }, []); // 빈 배열을 넣어 이펙트가 마운트 될 때만 등록 및 정리되도록 설정
 
-  return (
-    <>
-      {windowWidth <= 600 ? (
-        <CheckPhone />
-      ) : windowWidth <= 1320 ? (
-        <CheckTab />
-      ) : (
-        <CheckPC />
-      )}
-    </>
-  );
+  return <CheckPC />;
 }
 
 export default CheckPage;

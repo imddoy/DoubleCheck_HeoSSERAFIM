@@ -64,21 +64,6 @@ function FooterPC() {
             <td>이서진</td>
           </Table>
         </div>
-        <div
-          style={{
-            width: "92px",
-            display: "flex",
-            alignItems: "end",
-            float: "right",
-          }}
-        >
-          <SNS>
-            <img src="/InstarW.png" alt="instargram" />
-            <img src="/TwitterW.png" alt="twitter" />
-            <img src="/GithubW.png" alt="github" />
-            <img src="/FacebookW.png" alt="facebook" />
-          </SNS>
-        </div>
       </div>
     </Footer>
   );

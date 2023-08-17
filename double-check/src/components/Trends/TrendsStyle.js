@@ -3,11 +3,11 @@ import { styled, css } from "styled-components";
 /*공통된 반응형 넓이*/
 const responsiveWidth = css`
   @media screen and (max-width: 834px) {
-    width: 590px;
+    width: 550px;
   }
 
   @media screen and (max-width: 615px) {
-    width: 490px;
+    width: 470px;
   }
 
   @media screen and (max-width: 500px) {
@@ -21,11 +21,11 @@ const responsiveWidth = css`
 
 const responsiveHeight = css`
   @media screen and (max-width: 834px) {
-    height: 350px;
+    height: 310px;
   }
 
   @media screen and (max-width: 615px) {
-    height: 300.439px;
+    height: 254.23px;
   }
 
   @media screen and (max-width: 500px) {
@@ -80,15 +80,20 @@ export const FilterDiv = styled.div`
   }
 `;
 
-export const ListImg = styled.img`
+export const ListImgBox = styled.div`
   width: 626px;
   height: 351.439px;
-  border-radius: 8px;
-  margin-top: 22px;
+  margin: 40px auto;
   margin-bottom: 30px;
-  object-fit: cover;
   ${responsiveWidth}
   ${responsiveHeight}
+`;
+export const ListImg = styled.img`
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  object-fit: cover;
+  margin: 0 auto;
 `;
 
 export const TDiv = styled.div`
