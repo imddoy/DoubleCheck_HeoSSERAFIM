@@ -9,6 +9,25 @@ from django.db.models.functions import Lower
 import requests
 from django.conf import settings
 
+# GET 전송시
+# top_targets': list(targets) : 상위 3위 유튜버 프로필 및 채널명
+# 'posts': serializer.data}) : 신고하기 기능에서 POST한 모든 parameters
+
+# POST 전송시
+    # Request 에 포함하는 내용
+        # title
+        # target
+        # url 
+        # content 
+        # head_image
+    # ------------
+    # Request에 포함하진 않지만 함께 DB에 저장되는 내용
+        # target url 입력시 자동으로 값 추출 후 저장됨
+            # target_name 
+            # target_thumbnail  
+        # 날짜 자동 생성
+            # created_at 
+
 @api_view(['GET', 'POST'])
 def post_list(request):
     # GET 조회
@@ -22,6 +41,7 @@ def post_list(request):
         serializer = PostSerializer(posts, many=True)
 
         # targets와 posts 모두 Response
+        # 2개의 Response를 딕셔너리로 묶음
         return Response({'top_targets': list(targets),
                          'posts': serializer.data})
 
