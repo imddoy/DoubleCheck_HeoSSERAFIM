@@ -38,6 +38,8 @@ def get_secret(setting, secrets=secrets):
 SECRET_KEY = get_secret("SECRET_KEY")
 
 
+# settings.py
+YOUTUBE_API_KEY = "AIzaSyCMHMYV3ug24VPi_vksSkNKWkW0B0Fv3Gc"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
