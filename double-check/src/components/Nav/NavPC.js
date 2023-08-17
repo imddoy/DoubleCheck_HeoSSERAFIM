@@ -16,12 +16,12 @@ const Logo = styled.a`
   font-weight: 700;
 `;
 const Navblock = styled.div`
-  width: 787px;
+  width: 700px;
   display: flex;
   justify-content: space-between;
 `;
 const Linkblock = styled.div`
-  width: 483px;
+  width: 800px;
   display: flex;
   justify-content: space-between;
   color: var(--black, #000);
@@ -31,13 +31,6 @@ const Linkblock = styled.div`
   font-style: normal;
   font-weight: 700;
   line-height: normal;
-`;
-const SNS = styled.div`
-  width: 205.281px;
-  height: 21.293px;
-  flex-shrink: 0;
-  display: flex;
-  justify-content: space-between;
 `;
 function NavPC() {
   return (
@@ -49,13 +42,8 @@ function NavPC() {
           <Link to="/search">키워드 검색</Link>
           <Link to="/trend">현재 트렌드</Link>
           <Link to="/report">신고하기</Link>
+          <Link to="/report">서비스 소개</Link>
         </Linkblock>
-        <SNS>
-          <img src="/InstarB.png" alt="instargram" />
-          <img src="/TwitterB.png" alt="twitter" />
-          <img src="/GithubB.png" alt="github" />
-          <img src="/FacebookB.png" alt="facebook" />
-        </SNS>
       </Navblock>
     </Navbar>
   );
