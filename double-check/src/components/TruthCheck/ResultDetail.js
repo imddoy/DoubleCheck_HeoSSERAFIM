@@ -4,6 +4,7 @@ import progress from "../../img/ProgressBar.png";
 import ProgressBar from "./ProgressBar";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { ListImg, ListImgBox } from "../Trends/TrendsStyle";
 
 const Div = styled.div`
   width: 100%;
@@ -46,16 +47,9 @@ const PTitle = styled.div`
   justify-content: flex-end;
   align-items: baseline;
   gap: 5px;
-  @media screen and (max-width: 1275px) {
-    margin-top: 22px;
-    margin-bottom: 7px;
-    justify-content: flex-start;
-  }
-  @media screen and (max-width: 440px) {
-    margin-top: 22px;
-    justify-content: flex-start;
-    margin-bottom: 7px;
-  }
+  margin-bottom: 7px;
+  margin-top: 22px;
+  justify-content: flex-start;
 `;
 
 const Ptext = styled.div`
@@ -171,7 +165,9 @@ const ResultDetail = () => {
             />
           </PBox>
         </DBox>
-        <ThImage src={data.thumbnail_url} />
+        <ListImgBox>
+          <ListImg src={data.thumbnail_url} />
+        </ListImgBox>
         <ThTitle>{data.title}</ThTitle>
         {/* <TextTitle>텍스트 분석:</TextTitle>
       <TextDetail>{data.srt}</TextDetail> */}
@@ -191,7 +187,9 @@ const ResultDetail = () => {
             <ProgressBar bgcolor={"#3a42bf"} completed={match.percent} />
           </PBox>
         </DBox>
-        <ThImage src={match.thumbnail_url} />
+        <ListImgBox>
+          <ListImg src={match.thumbnail_url} />
+        </ListImgBox>
         <ThTitle>{match.title}</ThTitle>
         {/* <TextTitle>텍스트 분석:</TextTitle>
       <TextDetail>{data.srt}</TextDetail> */}
