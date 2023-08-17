@@ -135,7 +135,7 @@ const ResultDetail = () => {
       .get("http://127.0.0.1:8000/verify/")
       .then((response) => {
         setData(response.data[0]); // Assuming the latest data is the first in the list
-        console.log(response.data[0]);
+        console.log(response.data);
       })
       .catch((error) => {
         console.error("Error fetching the data", error);
