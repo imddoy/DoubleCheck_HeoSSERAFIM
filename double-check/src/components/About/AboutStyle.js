@@ -102,17 +102,35 @@ export const D3iv = styled.img`
 export const S4Div = styled.div`
     background-color: #3a42bf;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    margin-top: ${(props) => props.mt};
+    padding-top: 150px;
+    padding-bottom: 80px;
 `;
 
 export const S4Title = styled.div`
     color: #fff;
     text-align: center;
-    font-size: 80px;
+    font-size: 40px;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 400;
     line-height: normal;
+    margin-bottom: 10px;
+`;
+
+export const Gobtn = styled.button`
+    width: 383px;
+    height: 109px;
+    border-radius: 112px;
+    background-color: white;
+
+    color: var(--black, #000);
+    font-family: Pretendard;
+    font-size: 35px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -2.625px;
+    margin-bottom: 50px;
 `;

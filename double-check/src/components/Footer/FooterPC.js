@@ -7,6 +7,7 @@ const Footer = styled.div`
   padding: 55px;
   display: flex;
   justify-content: center;
+  margin-top: 50px;
   position: fixed; /* 고정 위치로 설정 */
   bottom: 0;
   left: 0;
