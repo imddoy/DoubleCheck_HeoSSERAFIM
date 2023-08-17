@@ -13,10 +13,17 @@ from django.conf import settings
 def post_list(request):
     # GET 조회
     if request.method == 'GET':
+        # 상위 3채널의 채널명과 채널프로필
+        targets = Post.objects.values('target_name', 'target_thumbnail').annotate(target_count=Count('target_name')).order_by('-target_count')[:3]
+     
+        # 신고하기 POST에 대한 GET
         # 내림차순 정렬
         posts = Post.objects.all().order_by('-id')
         serializer = PostSerializer(posts, many=True)
-        return Response(serializer.data)
+
+        # targets와 posts 모두 Response
+        return Response({'top_targets': list(targets),
+                         'posts': serializer.data})
 
     # POST 전송
     elif request.method == 'POST':

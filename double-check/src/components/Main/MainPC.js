@@ -11,7 +11,7 @@ import {
 } from "./MainStyle";
 import search from "../../img/search.png";
 import axios from "axios";
-import mainImg from "../../img/main.png";
+import mainImg from "../../img/main.svg";
 import Filter from "../Trends/Filter";
 import FilterMobile from "../Trends/FilterMobile";
 

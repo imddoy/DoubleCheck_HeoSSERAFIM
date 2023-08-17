@@ -18,7 +18,7 @@ const Pagination = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 52px;
+  margin: 52px 0;
 `;
 
 const NoReport = styled.div`
@@ -59,7 +59,7 @@ function ReportList() {
     axios
       .get("http://127.0.0.1:8000/upload/")
       .then((response) => {
-        setReports(response.data);
+        setReports(response.data.posts);
       })
       .catch((error) => {
         console.log(error.response.data);

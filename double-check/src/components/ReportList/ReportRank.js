@@ -24,10 +24,10 @@ function ReportRank() {
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/upload/popular/")
+      .get("http://127.0.0.1:8000/upload/")
       .then((response) => {
         // 상위 3개만 저장
-        setTopReports(response.data.slice(0, 3));
+        setTopReports(response.data.top_targets.slice(0, 3));
       })
       .catch((error) => {
         console.log(error.response.data);
@@ -41,8 +41,8 @@ function ReportRank() {
         {topReports.length > 0 ? (
           topReports.map((report, index) => (
             <Pdiv key={index}>
-              <RImg src={report.profile_picture}></RImg>
-              <RName>{report.profile_name}</RName>
+              <RImg src={report.target_thumbnail}></RImg>
+              <RName>{report.target_name}</RName>
               <Ranking>
                 {index === 0 ? "1st" : index === 1 ? "2nd" : "3rd"}
               </Ranking>
