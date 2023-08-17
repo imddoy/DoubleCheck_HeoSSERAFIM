@@ -44,12 +44,15 @@ const PTitle = styled.div`
   font-weight: 600;
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: baseline;
   gap: 5px;
   margin-bottom: 7px;
   margin-top: 22px;
-  justify-content: flex-start;
+
+  @media screen and (min-width: 1276px) {
+    justify-content: flex-end;
+  }
 `;
 
 const Ptext = styled.div`
