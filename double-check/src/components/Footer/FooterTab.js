@@ -47,6 +47,7 @@ function FooterPC() {
             <Th>Design</Th>
             <td>김채이</td>
             <td>김채현</td>
+            <td>노하림</td>
             <tr></tr>
             <Th>Front-end</Th>
             <td>김채현</td>
@@ -57,7 +58,6 @@ function FooterPC() {
             <td>김나리</td>
             <td>노하림</td>
             <td>이서진</td>
-            <td>허은</td>
             <tr></tr>
             <Th>Infra</Th>
             <td>허은</td>
