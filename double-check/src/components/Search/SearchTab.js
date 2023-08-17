@@ -28,6 +28,9 @@ const InputBox = styled.div`
   border: 1px solid var(--ain, #3a42bf);
   margin: 22px 0;
   color: var(--ain, #3a42bf);
+  ::placeholder {
+    color: #3a42bf;
+  }
 
   font-family: Pretendard;
   font-size: 14px;

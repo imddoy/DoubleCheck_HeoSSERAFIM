@@ -4,6 +4,7 @@ import progress from "../../img/ProgressBar.png";
 import ProgressBar from "./ProgressBar";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { ListImg, ListImgBox } from "../Trends/TrendsStyle";
 
 const Div = styled.div`
   width: 100%;
@@ -43,18 +44,14 @@ const PTitle = styled.div`
   font-weight: 600;
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: baseline;
   gap: 5px;
-  @media screen and (max-width: 1275px) {
-    margin-top: 22px;
-    margin-bottom: 7px;
-    justify-content: flex-start;
-  }
-  @media screen and (max-width: 440px) {
-    margin-top: 22px;
-    justify-content: flex-start;
-    margin-bottom: 7px;
+  margin-bottom: 7px;
+  margin-top: 22px;
+
+  @media screen and (min-width: 1276px) {
+    justify-content: flex-end;
   }
 `;
 
@@ -135,7 +132,7 @@ const ResultDetail = () => {
       .get("http://127.0.0.1:8000/verify/")
       .then((response) => {
         setData(response.data[0]); // Assuming the latest data is the first in the list
-        console.log(response.data[0]);
+        console.log(response.data);
       })
       .catch((error) => {
         console.error("Error fetching the data", error);
@@ -163,10 +160,17 @@ const ResultDetail = () => {
               <Ptext>허위 뉴스</Ptext>
             </PTitle>
             {/* <DImage src={progress} /> */}
-            <ProgressBar bgcolor={"#3a42bf"} completed={data.percent} />
+            <ProgressBar
+              bgcolor={"#3a42bf"}
+              completed={
+                data.judge === "Real News" ? 100 - data.percent : data.percent
+              }
+            />
           </PBox>
         </DBox>
-        <ThImage src={data.thumbnail_url} />
+        <ListImgBox>
+          <ListImg src={data.thumbnail_url} />
+        </ListImgBox>
         <ThTitle>{data.title}</ThTitle>
         {/* <TextTitle>텍스트 분석:</TextTitle>
       <TextDetail>{data.srt}</TextDetail> */}
@@ -186,7 +190,9 @@ const ResultDetail = () => {
             <ProgressBar bgcolor={"#3a42bf"} completed={match.percent} />
           </PBox>
         </DBox>
-        <ThImage src={match.thumbnail_url} />
+        <ListImgBox>
+          <ListImg src={match.thumbnail_url} />
+        </ListImgBox>
         <ThTitle>{match.title}</ThTitle>
         {/* <TextTitle>텍스트 분석:</TextTitle>
       <TextDetail>{data.srt}</TextDetail> */}

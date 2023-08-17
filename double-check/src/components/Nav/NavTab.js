@@ -23,7 +23,7 @@ function NavPhone() {
             <Link to="/Nav">
                 <img src="/Nav.png" alt="nav" width={'20px'} />
             </Link>
-            <Logo href="/">DOUBLE CHECK</Logo>
+            <Logo href="/main">DOUBLE CHECK</Logo>
             <div></div>
         </Navbar>
     );

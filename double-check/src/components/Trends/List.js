@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ListImg, Percent, TDiv, Title } from "./TrendsStyle";
+import { ListImg, ListImgBox, Percent, TDiv, Title } from "./TrendsStyle";
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
 
@@ -20,7 +20,9 @@ function List() {
           console.log(uniqueTitles);
           return (
             <Link to={`/truthcheck/${item.id}`}>
-              <ListImg src={item.thumbnail_url}></ListImg>
+              <ListImgBox>
+                <ListImg src={item.thumbnail_url}></ListImg>
+              </ListImgBox>
               <TDiv>
                 <Title>{item.title}</Title>
                 <Percent>

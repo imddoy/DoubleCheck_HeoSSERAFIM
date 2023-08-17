@@ -26,6 +26,9 @@ const InputBox = styled.div`
   border-radius: 10px;
   border: 1px solid var(--ain, #3a42bf);
   margin: 22px 0;
+  ::placeholder {
+    color: #3a42bf;
+  }
 
   display: flex;
   align-items: center;

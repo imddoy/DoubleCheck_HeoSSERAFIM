@@ -7,7 +7,6 @@ const Footer = styled.div`
     padding: 55px;
     display: flex;
     justify-content: center;
-    margin-top: 50px;
 `;
 
 const Table = styled.table`
@@ -58,16 +57,10 @@ const Team = styled.div`
     font-weight: 500;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    gap: 10px;
-    margin: 20px;
+    justify-content: end;
+    margin: 12px;
 `;
 const TeamLogo = styled.p``;
-const SNS = styled.div`
-    width: 124px;
-    display: flex;
-    justify-content: space-between;
-`;
 function FooterPC() {
     return (
         <Footer>
@@ -92,12 +85,6 @@ function FooterPC() {
                     <Logo>DOUBLE CHECK</Logo>
                     <Team>
                         <TeamLogo>Heo SSERAFIM</TeamLogo>
-                        <SNS>
-                            <img src="/InstarW.png" alt="instargram" />
-                            <img src="/TwitterW.png" alt="twitter" />
-                            <img src="/GithubW.png" alt="github" />
-                            <img src="/FacebookW.png" alt="facebook" />
-                        </SNS>
                     </Team>
                 </Content>
             </div>

@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { ListImg, Percent, TDiv, Title } from "./../Trends/TrendsStyle";
+import {
+  ListImg,
+  ListImgBox,
+  Percent,
+  TDiv,
+  Title,
+} from "./../Trends/TrendsStyle";
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
 
@@ -26,7 +32,9 @@ function List() {
         const verify = urlMap[item.url];
         return (
           <Link key={verify.id} to={`/truthcheck/${verify.id}`}>
-            <ListImg src={item.thumbnail_url}></ListImg>
+            <ListImgBox>
+              <ListImg src={item.thumbnail_url}></ListImg>
+            </ListImgBox>
             <TDiv>
               <Title>{item.title}</Title>
               <Percent>
