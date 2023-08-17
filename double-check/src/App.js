@@ -25,7 +25,9 @@ function App() {
             <Route path="trend" element={<Trends />} />
             <Route path="nav" element={<Nav />} />
             <Route path="search" element={<Search />} />
+            <Route path="search/:keyword" element={<Search />} />
             <Route exact path="fakenews/:id" element={<FakeDetail />} />
+            <Route exact path="truthcheck/:id" element={<TruthCheck />} />
             <Route exact path="/trend/:id" element={<Trends />} />
           </Route>
         </Routes>

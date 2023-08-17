@@ -1,6 +1,6 @@
 import { React, useState } from "react";
 import { styled, css } from "styled-components";
-import { Link } from "react-router-dom";
+import List from "./List";
 
 const Main = styled.div`
   padding: 1em 2em;
@@ -26,6 +26,9 @@ const InputBox = styled.div`
   border-radius: 10px;
   border: 1px solid var(--ain, #3a42bf);
   margin: 22px 0;
+  ::placeholder {
+    color: #3a42bf;
+  }
 
   display: flex;
   align-items: center;
@@ -77,8 +80,8 @@ function SearchPhone() {
 
   function handleImageClick() {
     if (searchQuery) {
-      // 검색 기능 실행 코드를 여기에 추가
-      alert(`검색: ${searchQuery}`);
+      console.log(searchQuery);
+      window.location.href = `/search/${searchQuery}`;
     }
   }
 
@@ -95,6 +98,7 @@ function SearchPhone() {
           <Img src={imgSrc} onClick={handleImageClick} />
         </InputBox>
       </Section>
+      <List />
     </Main>
   );
 }

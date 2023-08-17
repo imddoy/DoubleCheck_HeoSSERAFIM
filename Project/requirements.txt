@@ -13,7 +13,7 @@ typing_extensions==4.7.1
 tzdata==2023.3
 urllib3==2.0.4
 youtube-transcript-api==0.6.1
-googletrans==4.0.0rc1
+googletrans==4.0.0-rc1
 langdetect==1.0.9
 translate==3.6.1
 matplotlib==3.7.2
