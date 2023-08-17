@@ -1,11 +1,10 @@
 import React from 'react';
 import Com from '../../img/com.svg';
-import Light from '../../img/light.svg';
-import { Cimg, Limg, S1Div, S1Div2, STitle, Title } from './AboutStyle';
+import { Cimg, S1Div, S1Div2, STitle, Title } from './AboutStyle';
 
 function Section1() {
     return (
-        <S1Div>
+        <S1Div className="focus">
             <Cimg src={Com} />
 
             <S1Div2>

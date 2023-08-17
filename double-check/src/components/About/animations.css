@@ -1,0 +1,14 @@
+.AboutSection1_Floating {
+    animation: floating infinite linear;
+    animation-duration: 2.6s;
+}
+
+@keyframes floating {
+    0%,
+    100% {
+        transform: translateY(-10%);
+    }
+    50% {
+        transform: translateY(10%);
+    }
+}

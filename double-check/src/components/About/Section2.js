@@ -1,5 +1,6 @@
 import React from 'react';
 import logo from '../../img/logo.svg';
+import './animations.css';
 
 import { LogoImg, S2Div, Title2, TitleDiv } from './AboutStyle';
 function Section2() {
@@ -10,7 +11,7 @@ function Section2() {
                 <Title2 fw="700">허위 뉴스 판별 서비스입니다. </Title2>
             </TitleDiv>
 
-            <LogoImg src={logo} />
+            <LogoImg src={logo} className="AboutSection1_Floating" />
         </S2Div>
     );
 }

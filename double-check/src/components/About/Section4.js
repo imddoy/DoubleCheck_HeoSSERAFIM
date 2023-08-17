@@ -14,7 +14,7 @@ function Section4() {
 
             <S4img src={phone} />
 
-            <Gobtn onClick={move}>지금 double check 하기</Gobtn>
+            <Gobtn onClick={move}>double check 하기</Gobtn>
         </S4Div>
     );
 }
