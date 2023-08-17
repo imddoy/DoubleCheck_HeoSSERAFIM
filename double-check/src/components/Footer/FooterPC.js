@@ -10,7 +10,7 @@ const Footer = styled.div`
 `;
 
 const Table = styled.table`
-  width: 360px;
+  width: 85%;
   color: var(--white, #fff);
   font-family: Pretendard;
   font-size: 10px;
