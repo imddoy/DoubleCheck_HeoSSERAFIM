@@ -41,7 +41,11 @@ function FakeForm() {
       <Flabel>제목</Flabel>
       <FormDiv>{data.title}</FormDiv>
       <Flabel>신고 대상</Flabel>
-      <FormDiv>{data.target_name}</FormDiv>
+      <FormDiv>
+        <a href={data.target} target="_blank">
+          {data.target_name}
+        </a>
+      </FormDiv>
       <Flabel>신고 콘텐츠 링크</Flabel>
       <FormDiv>{data.url}</FormDiv>
       <Flabel>내용</Flabel>
