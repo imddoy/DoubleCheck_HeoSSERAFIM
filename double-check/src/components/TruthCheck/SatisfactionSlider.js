@@ -58,6 +58,7 @@ const FeedbackInput = styled.textarea`
   background-color: transparent;
   border: none;
   resize: none;
+  outline: none;
 `;
 
 const SubmitButton = styled.img`
