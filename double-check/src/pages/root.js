@@ -4,7 +4,7 @@ import Nav from './Nav';
 import Footer from './Footer';
 import GlobalStyles from '../GlobalStyle';
 
-function root() {
+function Root() {
     return (
         <>
             <GlobalStyles />
@@ -15,4 +15,4 @@ function root() {
     );
 }
 
-export default root;
+export default Root;
