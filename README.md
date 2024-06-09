@@ -3,37 +3,13 @@
 2023 멋쟁이사자처럼 중앙 해커톤 출전작 더블체크 프론트엔드 Repo입니다 <br>
 ### 구경하러 가기 🔗 : https://web-dc-front-3prof2lllgot7xu.sel3.cloudtype.app/
 
-# 😀 DOUBLE CHECK 팀원 소개
-
-### PM / Design
-
-| <center>김채이</center> |
-| --- |
-|<center></center>| #이미지 삽입
-| <center>디자인, 기획</center>| # 뭐했는지 작성하세요.
-
-### Front-end developer
+# 😀 Front-end developer
 
 | <center>김채현</center> | <center>노하림</center> | <center>허은</center> | 
 | --- | --- | --- |
 | <center></center> | <center></center> | <center></center> | # 이미지 삽입
-| <center> 메인페이지, </center> | <center> 신고 등록 페이지, 서비스 소개 페이지 </center> | <center> 허위 판별 페이지, 신고 리스트 페이지 </center> |
+| <center> 메인페이지, 검색 페이지, 헤더 및 푸터 </center> | <center> 신고 등록 페이지, 서비스 소개 페이지 </center> | <center> 허위 판별 페이지, 신고 리스트 페이지 </center> |
 
-
-
-### Back-end developer
-
-| 김나리 |노하림 |이서진 |
-| --- |--- |--- |
-|  <center></center> |<center></center> |<center></center> | # 이미지 삽입
-| 뭐했는지 | 허위 탐지 모델 개발 | 작성하세요|
-
-### Infra
-
-| 허은 |
-| --- |
-|  <center></center> | # 이미지 삽입
-| 뭐했는지 | 
 
 
 # ✅ About Service
